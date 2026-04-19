@@ -1,0 +1,188 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'CustomFont';
+  src: url('/font.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+:root {
+  --font-sans: "CustomFont", "Plus Jakarta Sans", sans-serif;
+  font-family: var(--font-sans);
+  line-height: 1.5;
+  font-weight: 500;
+
+  color-scheme: light;
+  --bg-color: #FFFFFF;
+  --text-color: #0F172A;
+  --primary-color: #2563EB;
+  --primary-hover: #1D4ED8;
+  --border-color: #E5E7EB;
+
+  color: var(--text-color);
+  background-color: var(--bg-color);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-smoothing: grayscale;
+}
+
+:root.dark-theme {
+  color-scheme: dark;
+  --bg-color: #0F172A;
+  --text-color: #FFFFFF;
+  --primary-color: #2563EB;
+  --primary-hover: #1D4ED8;
+  --border-color: rgba(255, 255, 255, 0.1);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@keyframes fluidExpand {
+  from {
+    opacity: 0;
+    transform: scaleY(0.8) translateY(-10px);
+    transform-origin: top;
+  }
+
+  to {
+    opacity: 1;
+    transform: scaleY(1) translateY(0);
+    transform-origin: top;
+  }
+}
+
+.animate-dropdown-open {
+  animation: fluidExpand 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Base section styles */
+section {
+  width: 100%;
+  height: 100vh;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background-color: var(--border-color);
+}
+
+/* Custom Scrollbar Styles */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333333;
+  border-radius: 5px;
+  border: 2px solid #0a0a0a;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #444444;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+/* Custom DatePicker Styles */
+.react-datepicker {
+  border: none !important;
+  font-family: inherit !important;
+  border-radius: 1rem !important;
+  background: white !important;
+}
+
+.react-datepicker__header {
+  background: white !important;
+  border-bottom: 1px solid #f1f5f9 !important;
+  padding-top: 1rem !important;
+}
+
+.react-datepicker__current-month {
+  font-weight: 900 !important;
+  color: #1e293b !important;
+  font-size: 0.875rem !important;
+}
+
+.react-datepicker__day-name {
+  color: #94a3b8 !important;
+  font-weight: 600 !important;
+  width: 2.25rem !important;
+  margin: 0.166rem !important;
+  display: inline-block !important;
+}
+
+.react-datepicker__day {
+  color: #475569 !important;
+  font-weight: 500 !important;
+  border-radius: 50% !important;
+  transition: all 0.2s ease !important;
+  width: 2.25rem !important;
+  line-height: 2.25rem !important;
+  margin: 0.166rem !important;
+}
+
+.react-datepicker__day:hover {
+  background-color: #f1f5f9 !important;
+  color: #2563eb !important;
+}
+
+.react-datepicker__day--today {
+  color: #2563eb;
+  font-weight: 700 !important;
+}
+
+.react-datepicker__day--selected,
+.react-datepicker__day--selected:hover,
+.react-datepicker__day--selected.react-datepicker__day--today {
+  background-color: #2563eb !important;
+  color: white !important;
+  font-weight: 700 !important;
+}
+
+.react-datepicker__day--keyboard-selected {
+  background-color: #eff6ff !important;
+  color: #2563eb !important;
+}
+
+.react-datepicker__day--outside-month {
+  color: #cbd5e1 !important;
+}
+
+.react-datepicker__navigation {
+  top: 1rem !important;
+}
