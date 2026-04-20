@@ -14,14 +14,14 @@ const Hero = ({ isSearchStarted, setIsSearchStarted }) => {
 
   const handleStartSearch = () => {
     setIsSearchStarted(true);
-    const exploreSection = document.getElementById('explore');
-    if (exploreSection) {
-      exploreSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    const searchSection = document.getElementById('search');
+    if (searchSection) {
+      searchSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
 
   return (
-    <section id="hero" onMouseMove={handleMouseMove} className="w-full min-h-[calc(100vh-72px)] p-0 flex flex-col border-b transition-colors duration-300 bg-slate-50 border-slate-300">
+    <section id="home" onMouseMove={handleMouseMove} className="w-full min-h-[calc(100vh-72px)] p-0 flex flex-col border-b transition-colors duration-300 bg-slate-50 border-slate-300">
 
       <div className="flex-1 w-full pt-8 px-8 pb-32 flex">
         <div className="flex-1 w-full rounded-[3rem] relative flex flex-col overflow-hidden transition-all duration-300 bg-white border border-slate-200 shadow-sm">

@@ -17,18 +17,19 @@ const Navbar = ({ isInsideHero }) => {
   }, []);
 
   const navLinks = [
-    { name: 'Home', href: '#hero' },
-    { name: 'Explore', href: '#explore', hasDropdown: true },
+    { name: 'Home', href: '#home' },
+    { name: 'Search', href: '#search', hasDropdown: true },
     { name: 'Routes', href: '#routes', hasDropdown: true },
     { name: 'Alert', href: '#alert', hasDropdown: true },
-    { name: 'About', href: '#about' },
+    { name: 'Explore', href: '#explore' },
     { name: 'Pricing', href: '#pricing' },
+    { name: 'About', href: '#about' },
   ];
 
-  const exploreData = {
+  const searchData = {
     monitor: [
       {
-        title: 'Explore Flights',
+        title: 'Search Flights',
         desc: 'Find the best deals globally',
         icon: Plane,
         color: 'bg-blue-500/10 text-blue-500'
@@ -167,17 +168,17 @@ const Navbar = ({ isInsideHero }) => {
             <div
               className="rounded-xl border bg-white border-slate-200 shadow-sm relative z-10 transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] overflow-hidden"
               style={{
-                width: activeDropdown === 'Explore' ? '600px' : activeDropdown === 'Routes' ? '700px' : activeDropdown === 'Alert' ? '400px' : '400px',
+                width: activeDropdown === 'Search' ? '600px' : activeDropdown === 'Routes' ? '700px' : activeDropdown === 'Alert' ? '400px' : '400px',
               }}
             >
               <div className="relative w-full h-full">
                 {/* Explore Content */}
-                <div className={`${activeDropdown === 'Explore' ? 'block' : 'hidden'} w-[600px] p-6`}>
+                <div className={`${activeDropdown === 'Search' ? 'block' : 'hidden'} w-[600px] p-6`}>
                   <div className="grid grid-cols-5 gap-8">
                     <div className="col-span-3">
                       <p className="text-[9px] font-semibold uppercase tracking-[0.2em] mb-4 text-slate-400">Navigation</p>
                       <div className="grid grid-cols-1 gap-0.5">
-                        {exploreData.monitor.map((item, idx) => (
+                        {searchData.monitor.map((item, idx) => (
                           <div key={idx} onClick={() => setActiveDropdown(null)} className="flex items-start gap-3 p-2 rounded-lg transition-all group cursor-pointer border-b border-slate-50 hover:bg-slate-50 last:border-b-0">
                             <div className="mt-0.5 transition-colors text-slate-400 group-hover:text-blue-600">
                               <item.icon size={16} strokeWidth={1.5} />
@@ -193,15 +194,15 @@ const Navbar = ({ isInsideHero }) => {
                     <div className="col-span-2">
                       <p className="text-[9px] font-semibold uppercase tracking-[0.2em] mb-4 text-slate-400">Featured</p>
                       <div className="rounded-lg overflow-hidden border border-slate-100 mb-4 group cursor-pointer aspect-[16/9]">
-                        <img src="https://images.pexels.com/photos/2166553/pexels-photo-2166553.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Explore" className="w-full h-full object-cover grayscale-[0.2] transition-all duration-700 group-hover:grayscale-0 group-hover:scale-105" />
+                        <img src="https://images.pexels.com/photos/2166553/pexels-photo-2166553.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Search" className="w-full h-full object-cover grayscale-[0.2] transition-all duration-700 group-hover:grayscale-0 group-hover:scale-105" />
                       </div>
                       <div onClick={() => setActiveDropdown(null)} className="flex items-start gap-3 p-2 rounded-lg transition-all group cursor-pointer hover:bg-slate-50">
                         <div className="mt-0.5 transition-colors text-slate-400 group-hover:text-blue-600">
-                          <exploreData.create.icon size={16} strokeWidth={1.5} />
+                          <searchData.create.icon size={16} strokeWidth={1.5} />
                         </div>
                         <div>
-                          <p className="text-[12px] font-medium transition-colors text-slate-900">{exploreData.create.title}</p>
-                          <p className="text-[10px] mt-0.5 text-slate-500">{exploreData.create.desc}</p>
+                          <p className="text-[12px] font-medium transition-colors text-slate-900">{searchData.create.title}</p>
+                          <p className="text-[10px] mt-0.5 text-slate-500">{searchData.create.desc}</p>
                         </div>
                       </div>
                     </div>
@@ -267,7 +268,7 @@ const Navbar = ({ isInsideHero }) => {
       {/* Right: CTA */}
       <div className="flex-1 flex justify-end items-center gap-4">
         <button
-          className="px-6 py-2 rounded-full text-sm font-bold transition-all cursor-pointer whitespace-nowrap bg-[#2563EB] text-white hover:bg-[#1D4ED8] shadow-lg shadow-blue-500/20"
+          className="px-6 py-2 rounded-full text-sm font-bold transition-all cursor-pointer whitespace-nowrap bg-[#2563EB] text-white hover:bg-[#1D4ED8]"
           style={{ fontFamily: 'CustomFont' }}
         >
           Sign in

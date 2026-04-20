@@ -3,6 +3,7 @@ import gsap from 'gsap';
 import AnnouncementBar from './components/AnnouncementBar';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
+import Search from './components/Search';
 import Explore from './components/Explore';
 import About from './components/About';
 import Pricing from './components/Pricing';
@@ -39,9 +40,10 @@ function App() {
       <AnnouncementBar />
       <Navbar isInsideHero={false} />
       <Hero isSearchStarted={isSearchStarted} setIsSearchStarted={setIsSearchStarted} />
-      <Explore isSearchStarted={isSearchStarted} />
-      <About />
+      <Search isSearchStarted={isSearchStarted} />
+      <Explore />
       <Pricing />
+      <About />
       <Footer />
     </main>
   );
