@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
+import gsap from 'gsap';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import { format } from 'date-fns';
@@ -29,6 +30,29 @@ const Search = ({ isSearchStarted }) => {
   const [cabinClass, setCabinClass] = useState('Economy');
   const [showTravelerDropdown, setShowTravelerDropdown] = useState(false);
   const travelerRef = useRef(null);
+
+  const sectionRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.15 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) observer.unobserve(sectionRef.current);
+    };
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -105,44 +129,38 @@ const Search = ({ isSearchStarted }) => {
     return () => clearInterval(timer);
   }, []);
 
-  // Smart auto-scroll: Only scrolls if the dropdown would be cut off by the screen edge
-  useEffect(() => {
-    if (showFromDropdown || showToDropdown) {
-      const activeRef = showFromDropdown ? fromRef : toRef;
 
-      if (activeRef.current) {
-        // Small delay to ensure the dropdown is rendered
-        const timer = setTimeout(() => {
-          const rect = activeRef.current.getBoundingClientRect();
-          const dropdownHeight = 350; // Approximate height of the dropdown
-          const viewportHeight = window.innerHeight;
-          const distanceToBottom = viewportHeight - rect.bottom;
 
-          // Only scroll if there isn't enough space for the dropdown
-          if (distanceToBottom < dropdownHeight) {
-            const scrollAmount = dropdownHeight - distanceToBottom + 20; // +20 for a small buffer
-            window.scrollBy({
-              top: scrollAmount,
-              behavior: 'smooth'
-            });
-          }
-        }, 100);
-
-        return () => clearTimeout(timer);
+  useLayoutEffect(() => {
+    if (isVisible) {
+      const tl = gsap.timeline();
+      
+      // 1. Blue container slides in from right
+      tl.fromTo(".search-container", 
+        { x: 100, opacity: 0 },
+        { x: 0, opacity: 1, duration: 0.8, ease: "expo.out", force3D: true }
+      );
+      
+      // 2. Reveal contents
+      const revealItems = sectionRef.current.querySelectorAll(".search-reveal-item");
+      if (revealItems.length) {
+        tl.fromTo(revealItems, 
+          { y: 40, opacity: 0, scale: 0.98 },
+          { y: 0, opacity: 1, scale: 1, duration: 0.7, stagger: 0.05, ease: "expo.out", force3D: true },
+          "-=0.5"
+        );
       }
     }
-  }, [showFromDropdown, showToDropdown]);
+  }, [isVisible]);
 
   return (
-    <section id="search" className="min-h-[calc(100vh-72px)] w-full flex items-center justify-center border-b transition-colors duration-300 bg-white border-slate-300">
-      <div className="w-full pl-8 min-h-[calc(100vh-72px)] flex items-center">
-        <div className="w-full relative p-16 pb-28 rounded-l-[3rem] border transition-all duration-300 animate-in fade-in slide-in-from-bottom-8 duration-1000 bg-blue-600 border-blue-500">
+    <section id="search" ref={sectionRef} className="min-h-[calc(100vh-72px)] w-full flex items-center justify-center transition-colors duration-300 bg-white overflow-hidden">
+      <div className="w-full pl-8 min-h-[calc(100vh-72px)] flex items-center overflow-hidden">
+        <div className="search-container w-full relative p-16 pb-28 rounded-l-[3rem] border bg-blue-600 border-blue-500 opacity-0">
           {/* Animated Left Panel */}
           <div className="absolute left-16 top-1/2 -translate-y-1/2 flex flex-col gap-5 w-52 z-10">
             {/* Stat Card 1 */}
-            <div
-              className="bg-white/15 backdrop-blur-sm rounded-2xl p-4 border border-white/20 shadow-lg"
-            >
+            <div className="search-reveal-item bg-white/15 backdrop-blur-sm rounded-2xl p-4 border border-white/20 shadow-lg opacity-0">
               <div className="flex items-center gap-3 mb-2">
                 <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-white text-sm">✈</div>
                 <span className="text-white/70 text-[10px] font-semibold uppercase tracking-wider">Live Deals</span>
@@ -157,9 +175,7 @@ const Search = ({ isSearchStarted }) => {
             </div>
 
             {/* Stat Card 2 */}
-            <div
-              className="bg-white/15 backdrop-blur-sm rounded-2xl p-4 border border-white/20 shadow-lg"
-            >
+            <div className="search-reveal-item bg-white/15 backdrop-blur-sm rounded-2xl p-4 border border-white/20 shadow-lg opacity-0">
               <div className="flex items-center gap-3 mb-2">
                 <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-white text-sm">💰</div>
                 <span className="text-white/70 text-[10px] font-semibold uppercase tracking-wider">Avg Saving</span>
@@ -172,9 +188,7 @@ const Search = ({ isSearchStarted }) => {
             </div>
 
             {/* Stat Card 3 */}
-            <div
-              className="bg-white/15 backdrop-blur-sm rounded-2xl p-4 border border-white/20 shadow-lg"
-            >
+            <div className="search-reveal-item bg-white/15 backdrop-blur-sm rounded-2xl p-4 border border-white/20 shadow-lg opacity-0">
               <div className="flex items-center gap-2 mb-1">
                 <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
                 <span className="text-white/70 text-[10px] font-semibold uppercase tracking-wider">Price Drop</span>
@@ -195,7 +209,7 @@ const Search = ({ isSearchStarted }) => {
           {/* Inner content wrapper - keeps original size & alignment */}
           <div className="w-full max-w-5xl ml-auto">
             {/* Main Tabs Row - Flights Only */}
-            <div className="w-full flex items-center justify-start gap-3 mb-6 relative z-20">
+            <div className="search-reveal-item w-full flex items-center justify-start gap-3 mb-6 relative z-20 opacity-0">
               <div className="flex flex-col items-center">
                 <span className="text-[10px] font-bold bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-3 py-1 rounded-full mb-1 shadow-lg uppercase tracking-tight">
                   Upto 44% Off
@@ -208,7 +222,7 @@ const Search = ({ isSearchStarted }) => {
             </div>
 
             {/* Main White Card */}
-            <div className="rounded-[2rem] p-8 relative z-10 border transition-all duration-300 bg-white border-slate-200/60">
+            <div className="search-reveal-item rounded-[2rem] p-8 relative z-10 border bg-white border-slate-200/60 opacity-0">
               {/* Trip Type Selector */}
               <div className="flex items-center gap-8 mb-8">
                 {['One Way', 'Round Trip', 'Multi City'].map((type) => (
@@ -237,7 +251,7 @@ const Search = ({ isSearchStarted }) => {
                       <div className="p-3 border-b border-white/5">
                         <div className="flex items-center gap-2 border rounded-lg px-4 py-1.5 bg-slate-50 border-slate-200">
                           <SearchIcon size={14} className="text-slate-400" />
-                          <input autoFocus type="text" placeholder="From where?" className="bg-transparent border-none outline-none text-xs w-full font-bold placeholder:text-slate-500 text-slate-800" value={fromSearch} onChange={(e) => setFromSearch(e.target.value)} onKeyDown={handleKeyDownFrom} />
+                          <input type="text" placeholder="From where?" className="bg-transparent border-none outline-none text-xs w-full font-bold placeholder:text-slate-500 text-slate-800" value={fromSearch} onChange={(e) => setFromSearch(e.target.value)} onKeyDown={handleKeyDownFrom} />
                         </div>
                       </div>
                       <div className="max-h-[265px] overflow-y-auto py-1 scrollbar-hide">
@@ -265,7 +279,7 @@ const Search = ({ isSearchStarted }) => {
                       <div className="p-3 border-b border-white/5">
                         <div className="flex items-center gap-2 border rounded-lg px-4 py-1.5 bg-slate-50 border-slate-200">
                           <SearchIcon size={14} className="text-slate-400" />
-                          <input autoFocus type="text" placeholder="To where?" className="bg-transparent border-none outline-none text-xs w-full font-bold placeholder:text-slate-500 text-slate-800" value={toSearch} onChange={(e) => setToSearch(e.target.value)} onKeyDown={handleKeyDownTo} />
+                          <input type="text" placeholder="To where?" className="bg-transparent border-none outline-none text-xs w-full font-bold placeholder:text-slate-500 text-slate-800" value={toSearch} onChange={(e) => setToSearch(e.target.value)} onKeyDown={handleKeyDownTo} />
                         </div>
                       </div>
                       <div className="max-h-[265px] overflow-y-auto py-1 scrollbar-hide">

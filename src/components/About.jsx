@@ -12,37 +12,37 @@ const FAQItem = ({ question, answer, isOpen, onToggle, expandUp }) => {
   useLayoutEffect(() => {
     if (isOpen) {
       // Opening
-      gsap.to(cardRef.current, { 
-        height: "192px", 
-        duration: 0.4, 
+      gsap.to(cardRef.current, {
+        height: "192px",
+        duration: 0.4,
         ease: "power3.out",
         onStart: () => gsap.set(cardRef.current, { zIndex: 50 })
       });
-      gsap.to(contentRef.current, { 
-        opacity: 1, 
+      gsap.to(contentRef.current, {
+        opacity: 1,
         y: 0,
-        duration: 0.3, 
-        delay: 0.1 
+        duration: 0.3,
+        delay: 0.1
       });
     } else {
       // Closing
-      gsap.to(cardRef.current, { 
-        height: "88px", 
-        duration: 0.4, 
+      gsap.to(cardRef.current, {
+        height: "88px",
+        duration: 0.4,
         ease: "power3.inOut",
         onComplete: () => gsap.set(cardRef.current, { zIndex: 10 })
       });
-      gsap.to(contentRef.current, { 
-        opacity: 0, 
+      gsap.to(contentRef.current, {
+        opacity: 0,
         y: -10,
-        duration: 0.2 
+        duration: 0.2
       });
     }
   }, [isOpen]);
 
   return (
     <div className="relative h-[88px] w-full faq-item-container">
-      <div 
+      <div
         ref={cardRef}
         className={`absolute ${expandUp ? 'bottom-0' : 'top-0'} left-0 w-full p-6 rounded-xl border transition-colors cursor-pointer bg-white shadow-none overflow-hidden ${isOpen ? 'border-slate-200 shadow-xl shadow-slate-900/5' : 'border-slate-100 hover:border-slate-200'}`}
         onClick={(e) => {
@@ -58,9 +58,9 @@ const FAQItem = ({ question, answer, isOpen, onToggle, expandUp }) => {
               {isOpen ? <Minus className="size-4 text-slate-900" /> : <Plus className="size-4 text-slate-400" />}
             </div>
           </div>
-          
-          <div 
-            ref={contentRef} 
+
+          <div
+            ref={contentRef}
             className="overflow-hidden"
             style={{ opacity: isOpen ? 1 : 0 }}
           >
@@ -80,6 +80,7 @@ const About = () => {
   const component = useRef(null);
   const slider = useRef(null);
   const [openId, setOpenId] = useState(null);
+  const [isVisible, setIsVisible] = useState(false);
 
   // Close when clicking outside
   useEffect(() => {
@@ -88,11 +89,31 @@ const About = () => {
     return () => window.removeEventListener('click', handleClickOutside);
   }, []);
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (component.current) {
+      observer.observe(component.current);
+    }
+
+    return () => {
+      if (component.current) observer.unobserve(component.current);
+    };
+  }, []);
+
   useLayoutEffect(() => {
     let ctx = gsap.context(() => {
       const panels = gsap.utils.toArray(".about-panel");
 
-      gsap.to(panels, {
+      const scrollTween = gsap.to(panels, {
         xPercent: -100 * (panels.length - 1),
         ease: "none",
         scrollTrigger: {
@@ -103,6 +124,29 @@ const About = () => {
           end: () => "+=" + (slider.current.scrollWidth - window.innerWidth),
           invalidateOnRefresh: true,
           anticipatePin: 1,
+        }
+      });
+
+      // Animate elements inside each panel as they come into view
+      panels.forEach((panel) => {
+        const revealItems = panel.querySelectorAll(".reveal-item");
+        if (revealItems.length) {
+          gsap.from(revealItems, {
+            y: 40,
+            scale: 0.98,
+            opacity: 0,
+            duration: 1.2,
+            stagger: 0.1,
+            ease: "expo.out",
+            immediateRender: false,
+            scrollTrigger: {
+              trigger: panel,
+              containerAnimation: scrollTween,
+              start: "left 95%",
+              toggleActions: "play none none none"
+            },
+            clearProps: "transform,opacity" // Ensure layout is clean after animation
+          });
         }
       });
     }, component);
@@ -149,31 +193,33 @@ const About = () => {
 
         {/* Screen 1: Original Identity */}
         <section className="about-panel w-screen h-full flex flex-col items-center justify-center text-center bg-white">
-          <div className="mb-8">
-            <img
-              src="/images/LOGO.svg"
-              alt="Logo Icon"
-              className="h-16 md:h-16 w-auto invert"
-            />
+          <div className="w-[85vw] h-[75vh] flex flex-col items-center justify-center rounded-[5rem] border border-slate-200 bg-white mx-auto">
+            <div className="mb-12 reveal-item">
+              <img
+                src="/images/LOGO.svg"
+                alt="Logo Icon"
+                className="h-16 md:h-16 w-auto invert"
+              />
+            </div>
+            <h1
+              className="text-5xl md:text-5xl font-medium text-slate-900 tracking-tighter leading-tight reveal-item"
+              style={{ fontFamily: 'CustomFont' }}
+            >
+              Why we build <br />
+              Flight-point
+            </h1>
           </div>
-          <h1
-            className="text-5xl md:text-5xl font-medium text-slate-900 tracking-tighter leading-[1.3]"
-            style={{ fontFamily: 'CustomFont' }}
-          >
-            Why we build <br />
-            Flight-point
-          </h1>
         </section>
 
         {/* Screen 2: Editorial/Story */}
         <section className="about-panel w-screen h-full flex items-center justify-center bg-white">
           <div className="flex flex-col items-start text-left px-12 max-w-6xl">
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-10 tracking-tight" style={{ fontFamily: 'CustomFont' }}>
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-10 tracking-tight reveal-item" style={{ fontFamily: 'CustomFont' }}>
               Software that makes you feel great
             </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 text-slate-600 text-base md:text-lg leading-relaxed font-medium">
-              <div className="space-y-8">
+              <div className="space-y-8 reveal-item">
                 <p>
                   Traveling with points shouldn't be complicated or overwhelming. Flightpoints was built on a simple belief: everyone should be able to use their miles confidently without stress, confusion, or wasted time.
                 </p>
@@ -181,7 +227,7 @@ const About = () => {
                   Every year, millions of award seats go unused because travelers never know when they become available. Searching dozens of airline sites, comparing point values, and tracking routes manually is slow, unclear, and easy to miss.
                 </p>
               </div>
-              <div className="space-y-8">
+              <div className="space-y-8 reveal-item">
                 <p>
                   <span className="text-slate-900 font-bold">Flightpoints exists to change that.</span><br />
                   We continuously improve our platform with smarter alerts, deeper award data, and more airline integrations, so planning with miles becomes effortless.
@@ -197,11 +243,11 @@ const About = () => {
         {/* Screen 3: Airline Partner Grid */}
         <section className="about-panel w-screen h-full flex items-center justify-center bg-white">
           <div className="flex flex-col items-start text-left px-12 max-w-6xl w-full">
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6 tracking-tight" style={{ fontFamily: 'CustomFont' }}>
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6 tracking-tight reveal-item" style={{ fontFamily: 'CustomFont' }}>
               Find the best Award flights.
             </h2>
 
-            <p className="text-xl text-slate-500 leading-relaxed max-w-4xl mb-10">
+            <p className="text-xl text-slate-500 leading-relaxed max-w-4xl mb-10 reveal-item">
               Search <span className="font-bold text-slate-900">award flights across 25+ airlines and partner programs.</span> Compare
               mileage costs, availability, and cabin options side-by-side, and quickly find the
               best way to fly using your points.
@@ -216,7 +262,7 @@ const About = () => {
                 { name: "GOL Smiles", routes: "307 Routes", logo: "/images/gol-linhas-aereas-seeklogo-01.svg" },
                 { name: "Jet Blue", routes: "307 Routes", logo: "/images/jetblue-01.svg" },
               ].map((item, i) => (
-                <div key={i} className="p-3.5 rounded-xl border border-slate-100 bg-white flex items-center justify-between group hover:border-slate-300 transition-colors">
+                <div key={i} className="p-3.5 rounded-xl border border-slate-100 bg-white flex items-center justify-between group hover:border-slate-300 transition-colors reveal-item">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-lg bg-slate-50 flex items-center justify-center p-1.5">
                       <img src={item.logo} alt={item.name} className="w-full h-full object-contain" />
@@ -235,7 +281,7 @@ const About = () => {
         {/* Screen 4: Transfer Partners */}
         <section className="about-panel w-screen h-full flex items-center justify-center bg-white">
           <div className="flex flex-col items-start text-left px-12 max-w-6xl">
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-10 tracking-tight" style={{ fontFamily: 'CustomFont' }}>
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-10 tracking-tight reveal-item" style={{ fontFamily: 'CustomFont' }}>
               Discover Transfer Partners
             </h2>
 
@@ -248,7 +294,7 @@ const About = () => {
                 { name: "Bilt", logo: "/images/bilt.svg" },
                 { name: "Wells Fargo", logo: "/images/wellsfargo.svg" }
               ].map((item, i) => (
-                <div key={i} className="p-6 rounded-2xl border border-slate-100 bg-white flex items-center justify-center transition-all hover:border-slate-300">
+                <div key={i} className="p-6 rounded-2xl border border-slate-100 bg-white flex items-center justify-center transition-all hover:border-slate-300 reveal-item">
                   <img src={item.logo} alt={item.name} className="h-6 md:h-8 w-auto object-contain" />
                 </div>
               ))}
@@ -259,20 +305,21 @@ const About = () => {
         {/* Screen 5: FAQ Section */}
         <section className="about-panel w-screen h-full flex items-center justify-center bg-white">
           <div className="flex flex-col items-start text-left px-12 max-w-5xl w-full">
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-12 tracking-tight" style={{ fontFamily: 'CustomFont' }}>
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-12 tracking-tight reveal-item" style={{ fontFamily: 'CustomFont' }}>
               Frequently Asked Questions
             </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-6 w-full">
               {faqData.map((faq) => (
-                <FAQItem 
-                  key={faq.id} 
-                  question={faq.question} 
-                  answer={faq.answer} 
-                  isOpen={openId === faq.id}
-                  onToggle={() => setOpenId(openId === faq.id ? null : faq.id)}
-                  expandUp={faq.id > 4}
-                />
+                <div key={faq.id} className="reveal-item">
+                  <FAQItem
+                    question={faq.question}
+                    answer={faq.answer}
+                    isOpen={openId === faq.id}
+                    onToggle={() => setOpenId(openId === faq.id ? null : faq.id)}
+                    expandUp={faq.id > 4}
+                  />
+                </div>
               ))}
             </div>
           </div>

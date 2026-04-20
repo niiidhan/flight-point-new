@@ -11,9 +11,9 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-black text-white py-20 px-6 md:px-12 w-full rounded-t-[48px] relative z-10" style={{ fontFamily: 'CustomFont' }}>
+    <footer className="bg-black text-white py-12 px-6 md:px-12 w-full rounded-t-[48px] relative z-10" style={{ fontFamily: 'CustomFont' }}>
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-24">
 
           {/* Links Column */}
           <div>
@@ -59,9 +59,9 @@ const Footer = () => {
             <h4 className="font-bold text-lg mb-4 tracking-tight text-white">Stay Updated</h4>
             <p className="text-sm text-white/40 mb-6 font-medium">Get the latest award seat alerts and travel tips.</p>
             <div className="relative">
-              <input 
-                type="email" 
-                placeholder="Email address" 
+              <input
+                type="email"
+                placeholder="Email address"
                 className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5 transition-all font-medium text-white placeholder:text-white/20"
               />
               <button className="absolute right-2 top-1.5 bottom-1.5 bg-blue-600 text-white px-4 rounded-lg text-xs font-bold hover:bg-blue-700 transition-all shadow-lg shadow-blue-500/20">
@@ -75,7 +75,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="pt-16 border-t border-white/5 flex flex-col gap-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-            
+
             {/* Left side: Logo & Copyright */}
             <div className="flex flex-col gap-3">
               <div className="flex items-center gap-3">

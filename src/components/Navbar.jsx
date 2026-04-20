@@ -100,7 +100,7 @@ const Navbar = ({ isInsideHero }) => {
 
   return (
     <nav
-      className={`w-full flex items-center justify-between z-[100] transition-all duration-300 ${isInsideHero
+      className={`w-full flex items-center justify-between z-[100] transition-all duration-300 animate-reveal-down ${isInsideHero
         ? (isScrolled
           ? "fixed top-0 left-0 w-full px-12 bg-white border-b border-slate-200 shadow-sm"
           : "relative px-8 bg-white border-b border-slate-200/50")
@@ -109,6 +109,7 @@ const Navbar = ({ isInsideHero }) => {
       style={{
         height: (isInsideHero && !isScrolled) ? '80px' : '72px',
         fontFamily: 'CustomFont',
+        animationDelay: '50ms'
       }}
     >
       {/* Left: Logo */}

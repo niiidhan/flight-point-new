@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useLayoutEffect } from 'react';
 import gsap from 'gsap';
 import AnnouncementBar from './components/AnnouncementBar';
 import Navbar from './components/Navbar';
@@ -12,22 +12,28 @@ import LoadingScreen from './components/LoadingScreen';
 
 function App() {
   const [isLoading, setIsLoading] = useState(() => {
-    // Check if the site has already loaded in this session
     return !sessionStorage.getItem('hasLoaded');
   });
 
-  useEffect(() => {
-    // Force scroll to top on reload
-    window.history.scrollRestoration = 'manual';
+  useLayoutEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
     window.scrollTo(0, 0);
+  }, []);
 
-    // If it's the first time loading, set the flag after the timer
+  useEffect(() => {
     if (isLoading) {
       const timer = setTimeout(() => {
         setIsLoading(false);
         sessionStorage.setItem('hasLoaded', 'true');
-      }, 500);
+        // Reset scroll again after loading screen is gone
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+      }, 1000);
       return () => clearTimeout(timer);
+    } else {
+      // Even if skipping loading, ensure we are at the top
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     }
   }, [isLoading]);
 

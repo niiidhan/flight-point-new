@@ -25,7 +25,7 @@ const AnnouncementBar = () => {
     <section 
       ref={barRef}
       id="announcement-bar" 
-      className="w-full flex items-center justify-center relative px-4 overflow-hidden transition-colors duration-300" 
+      className="w-full flex items-center justify-center relative px-4 overflow-hidden transition-colors duration-300 animate-reveal-down" 
       style={{ 
         height: '38px', 
         backgroundColor: '#2563EB' 

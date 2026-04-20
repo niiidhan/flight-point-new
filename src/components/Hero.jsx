@@ -1,17 +1,7 @@
-import React, { useState } from 'react';
-import { Plane, Hotel, Search, ShieldCheck, Star } from 'lucide-react';
+import React from 'react';
+import { Search, Tag, Briefcase } from 'lucide-react';
 
 const Hero = ({ isSearchStarted, setIsSearchStarted }) => {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-
-  const handleMouseMove = (e) => {
-    const { clientX, clientY } = e;
-    const { innerWidth, innerHeight } = window;
-    const x = (clientX / innerWidth - 0.5) * 30;
-    const y = (clientY / innerHeight - 0.5) * 30;
-    setMousePosition({ x, y });
-  };
-
   const handleStartSearch = () => {
     setIsSearchStarted(true);
     const searchSection = document.getElementById('search');
@@ -21,184 +11,115 @@ const Hero = ({ isSearchStarted, setIsSearchStarted }) => {
   };
 
   return (
-    <section id="home" onMouseMove={handleMouseMove} className="w-full min-h-[calc(100vh-72px)] p-0 flex flex-col border-b transition-colors duration-300 bg-slate-50 border-slate-300">
-
-      <div className="flex-1 w-full pt-8 px-8 pb-32 flex">
-        <div className="flex-1 w-full rounded-[3rem] relative flex flex-col overflow-hidden transition-all duration-300 bg-white border border-slate-200 shadow-sm">
-          <div className="flex-1 w-full flex flex-col items-center justify-center">
-
-            {/* Grid Pattern Container */}
-            <div className="absolute inset-0 z-0 overflow-hidden rounded-[3rem]">
-              <div
-                className="absolute inset-0 opacity-[0.05]"
-                style={{
-                  backgroundImage: `linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)`,
-                  backgroundSize: '100px 100px'
-                }}
-              />
+    <section id="home" className="w-screen h-[calc(100vh-72px)] flex items-center justify-center bg-white overflow-hidden">
+      <div className="w-[85vw] h-[75vh] flex flex-col items-center justify-center rounded-[5rem] border border-slate-200 bg-white mx-auto relative shadow-sm">
+        
+        <div className="z-10 w-full h-full flex flex-col lg:flex-row items-center justify-between px-12 lg:px-24 gap-12">
+          
+          {/* Left Column: Text Content */}
+          <div className="flex flex-col items-start text-left max-w-xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-50 border border-slate-200 mb-8 animate-reveal-up" style={{ animationDelay: '100ms' }}>
+              <div className="w-1.5 h-1.5 rounded-full bg-blue-600 animate-pulse" />
+              <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Trusted by 10k+ Travelers</span>
             </div>
 
-            {/* Content Container */}
-            <div className="relative z-10 w-full max-w-7xl px-4 py-8 grid lg:grid-cols-2 items-center gap-12 lg:gap-24">
+            <h1 
+              className="text-4xl md:text-6xl font-medium text-slate-900 tracking-tighter leading-tight mb-6 animate-reveal-up"
+              style={{ fontFamily: 'CustomFont', animationDelay: '200ms' }}
+            >
+              The Fastest Award <br />
+              Flight Finder
+            </h1>
 
-              {/* Left Side: Header Section */}
-              <div className="text-center lg:text-left transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)] relative">
+            <p className="text-base md:text-lg text-slate-500 mb-10 max-w-lg leading-relaxed animate-reveal-up" style={{ animationDelay: '300ms' }}>
+              No more checking airlines one by one. Find premium award seats in seconds, compare miles instantly, and get alerts before they're gone.
+            </p>
 
-                {/* Decorative Elements */}
-                <div className="absolute -top-20 -left-20 w-64 h-64 bg-blue-100/50 rounded-full blur-3xl animate-pulse" />
+            <button
+              onClick={handleStartSearch}
+              className="group relative inline-flex items-center justify-center gap-2 bg-slate-900 text-white px-6 py-3 rounded-full font-bold text-xs transition-all duration-300 hover:bg-black hover:scale-[1.02] active:scale-[0.98] shadow-lg animate-reveal-up"
+              style={{ animationDelay: '400ms' }}
+            >
+              <Search size={14} className="text-white" />
+              <span>Start Your Search</span>
+            </button>
+          </div>
 
-                {/* Trusted Badge */}
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-100/80 border border-slate-200 backdrop-blur-md mb-8">
-                  <div className="w-5 h-5 rounded-full bg-emerald-500 flex items-center justify-center shadow-[0_0_15px_rgba(16,185,129,0.3)]">
-                    <ShieldCheck size={12} className="text-white" />
-                  </div>
-                  <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Trusted by 10k+ Travelers</span>
+          {/* Right Column: Floating Cards */}
+          <div className="hidden lg:flex relative w-[400px] h-[400px] items-center justify-center -translate-x-16 animate-reveal-scale" style={{ animationDelay: '600ms' }}>
+            
+            {/* Back Card - Left (Aeromexico) */}
+            <div className="absolute inset-0 flex items-center justify-center animate-float-delayed z-10 pointer-events-none [&:has(:hover)]:[animation-play-state:paused]">
+              <div className="pointer-events-auto w-48 h-64 bg-white rounded-3xl shadow-xl p-2 border border-slate-100 rotate-[-12deg] -translate-x-20 translate-y-4 hover:-translate-y-2 hover:-rotate-12 transition-transform duration-500 cursor-default">
+                <div className="w-full h-40 rounded-[1.25rem] overflow-hidden mb-3 bg-slate-100">
+                  <img src="https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&q=80&w=300" className="w-full h-full object-cover" alt="Cityscape" />
                 </div>
-
-                <div className="relative inline-block mb-12 scale-110 origin-left">
-                  <div className="bg-[#99FF8A] px-10 py-6 rounded-[2rem] shadow-[10px_10px_0px_rgba(0,0,0,0.1)] inline-block relative z-20">
-                    <h1 className="text-5xl md:text-7xl font-black text-slate-900 leading-none tracking-tighter">
-                      The Fastest
-                    </h1>
+                <div className="flex items-center gap-2 px-2">
+                  <div className="w-8 h-8 rounded-full border border-slate-100 flex items-center justify-center overflow-hidden">
+                    <img src="/images/logo_aeromexico-01.svg" className="w-full h-full object-contain p-1.5" alt="Aeromexico" />
                   </div>
-
-                  <div className="absolute -top-8 -right-20 bg-gradient-to-br from-purple-400 to-indigo-500 px-7 py-2.5 rounded-2xl shadow-2xl z-30 rotate-[6deg] border border-white/20">
-                    <span className="text-2xl md:text-3xl font-black text-white">Award</span>
-                  </div>
-
-                  <div className="absolute -bottom-6 -right-16 bg-gradient-to-br from-orange-400 to-pink-500 px-10 py-3.5 rounded-2xl shadow-xl z-30 rotate-[-4deg] border border-white/20">
-                    <span className="text-2xl md:text-3xl font-black text-white">Flight Finder</span>
-                  </div>
-                </div>
-
-                <p className="text-xl md:text-2xl text-slate-600 mb-12 max-w-2xl font-medium leading-relaxed">
-                  No more checking airlines one by one. Find premium award seats in seconds, compare miles instantly, and get alerts before they're gone.
-                </p>
-
-                <div className="flex justify-center lg:justify-start">
-                  <button
-                    onClick={handleStartSearch}
-                    className="group relative inline-flex items-center gap-3 bg-slate-900 text-white px-7 py-3.5 rounded-full font-bold text-base transition-all duration-500 hover:scale-105 hover:shadow-[0_15px_40px_rgba(0,0,0,0.2)] active:scale-95 shadow-xl cursor-pointer"
-                  >
-                    <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center transition-transform duration-500 group-hover:rotate-[360deg] shadow-lg backdrop-blur-sm">
-                      <Search size={16} className="text-white" />
-                    </div>
-                    <span>Start Your Search</span>
-                  </button>
-                </div>
-              </div>
-
-              {/* Right Side: Premium Parallax Floating Cards */}
-              <div className="hidden lg:flex justify-center items-center relative h-[550px] perspective-[1000px] scale-[0.85]">
-                <div
-                  className="relative w-full max-w-[600px] h-full transition-transform duration-200 ease-out flex items-center justify-center"
-                  style={{
-                    transform: `rotateX(${-mousePosition.y * 0.5}deg) rotateY(${mousePosition.x * 0.5}deg)`
-                  }}
-                >
-                  <div className="absolute inset-0 bg-blue-400/10 blur-[150px] rounded-full scale-75 animate-pulse" />
-
-                  {/* Back Card - Left */}
-                  <div
-                    className="absolute left-[10%] rotate-[-12deg] -translate-y-8 opacity-60 blur-[1px] transition-all duration-700 hover:opacity-100 hover:blur-0 z-10"
-                    style={{ transform: `translate3d(${mousePosition.x * 0.8}px, ${mousePosition.y * 0.8}px, 0) rotate(-12deg)` }}
-                  >
-                    <div className="w-[280px] bg-white/95 backdrop-blur-xl rounded-[3rem] overflow-hidden shadow-[0_30px_60px_rgba(0,0,0,0.15)] p-4 border border-white/40">
-                      <div className="h-32 rounded-[1.8rem] overflow-hidden mb-3">
-                        <img src="https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&q=80&w=300" className="w-full h-full object-cover" alt="Cityscape" />
-                      </div>
-                      <div className="px-3 pb-2">
-                        <div className="flex items-center gap-3">
-                          <div className="w-9 h-9 rounded-2xl bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center shadow-lg">
-                            <Plane size={16} className="text-white" />
-                          </div>
-                          <div>
-                            <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Starts from</p>
-                            <p className="text-base font-black text-slate-900 leading-none">12.5k <span className="text-blue-600">pts</span></p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Back Card - Right */}
-                  <div
-                    className="absolute right-[10%] rotate-[10deg] translate-y-12 opacity-50 blur-[2px] transition-all duration-700 hover:opacity-100 hover:blur-0 z-10"
-                    style={{ transform: `translate3d(${mousePosition.x * -0.6}px, ${mousePosition.y * -0.6}px, 0) rotate(10deg)` }}
-                  >
-                    <div className="w-[200px] bg-white/95 backdrop-blur-xl rounded-[2.5rem] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.2)] p-3 border border-white/40">
-                      <div className="h-28 rounded-[1.8rem] overflow-hidden mb-3">
-                        <img src="https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&q=80&w=300" className="w-full h-full object-cover" alt="Resort" />
-                      </div>
-                      <div className="px-3 pb-2">
-                        <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center shadow-lg">
-                            <Hotel size={14} className="text-white" />
-                          </div>
-                          <p className="text-sm font-black text-slate-900">18k <span className="text-blue-600">pts</span></p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Main Featured Card */}
-                  <div
-                    className="absolute z-30 transition-all duration-500 group"
-                    style={{ transform: `translate3d(${mousePosition.x * 1.5}px, ${mousePosition.y * 1.5}px, 100px)` }}
-                  >
-                    <div className="w-[300px] bg-white rounded-[3rem] overflow-hidden shadow-[0_50px_100px_-20px_rgba(0,0,0,0.4)] p-5 border border-white/50 relative group-hover:scale-[1.02] transition-transform duration-500">
-                      <div className="h-48 rounded-[2rem] overflow-hidden mb-5 shadow-inner">
-                        <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&q=80&w=500" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Paris" />
-                      </div>
-
-                      <div className="flex items-center justify-between px-2">
-                        <div className="flex items-center gap-4">
-                          <div className="w-12 h-12 rounded-[1.2rem] bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center shadow-[0_10px_20px_rgba(37,99,235,0.3)]">
-                            <Plane size={20} className="text-white" />
-                          </div>
-                          <div className="flex flex-col">
-                            <p className="text-[10px] text-slate-400 font-bold uppercase tracking-[0.2em] mb-1">Starting from</p>
-                            <div className="flex items-baseline gap-1">
-                              <span className="text-3xl font-black text-slate-900 tracking-tighter">5,000</span>
-                              <span className="text-sm font-black bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent italic">pts</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Premium Floating Badges */}
-                    <div
-                      className="absolute -top-6 -left-16 bg-white/90 backdrop-blur-2xl border border-white/50 px-6 py-4 rounded-[2rem] shadow-[0_30px_60px_-10px_rgba(0,0,0,0.2)] flex items-center gap-3 animate-float whitespace-nowrap"
-                      style={{ transform: `translate3d(${mousePosition.x * 0.5}px, ${mousePosition.y * 0.5}px, 50px)` }}
-                    >
-                      <div className="w-8 h-8 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/30">
-                        <ShieldCheck size={16} className="text-white" />
-                      </div>
-                      <div className="flex flex-col">
-                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none mb-1">Standard</span>
-                        <span className="text-xs font-black text-emerald-800 uppercase tracking-wider">Economy Class</span>
-                      </div>
-                    </div>
-
-                    <div
-                      className="absolute -bottom-10 -right-16 bg-white/90 backdrop-blur-2xl border border-white/50 px-6 py-4 rounded-[2rem] shadow-[0_30px_60px_-10px_rgba(0,0,0,0.2)] flex items-center gap-3 animate-float-delayed whitespace-nowrap"
-                      style={{ transform: `translate3d(${mousePosition.x * -0.5}px, ${mousePosition.y * -0.5}px, 50px)` }}
-                    >
-                      <div className="w-8 h-8 bg-gradient-to-br from-indigo-500 to-indigo-700 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/30">
-                        <Star size={16} className="text-white" fill="white" />
-                      </div>
-                      <div className="flex flex-col">
-                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none mb-1">Premium</span>
-                        <span className="text-xs font-black text-indigo-900 uppercase tracking-wider">Business Class</span>
-                      </div>
-                    </div>
+                  <div>
+                    <p className="text-[10px] text-slate-400 font-medium leading-none mb-1">Starting from</p>
+                    <p className="text-sm font-black text-slate-700 leading-none">4,500 <span className="text-[10px] font-bold text-slate-500">pts</span></p>
                   </div>
                 </div>
               </div>
             </div>
+
+            {/* Back Card - Right (JetBlue) */}
+            <div className="absolute inset-0 flex items-center justify-center animate-bounce-subtle z-10 pointer-events-none [&:has(:hover)]:[animation-play-state:paused]">
+              <div className="pointer-events-auto w-48 h-64 bg-white rounded-3xl shadow-xl p-2 border border-slate-100 rotate-[12deg] translate-x-20 translate-y-4 hover:-translate-y-2 hover:rotate-12 transition-transform duration-500 cursor-default">
+                <div className="w-full h-40 rounded-[1.25rem] overflow-hidden mb-3 bg-slate-100">
+                  <img src="https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&q=80&w=300" className="w-full h-full object-cover" alt="Beach" />
+                </div>
+                <div className="flex items-center gap-2 px-2">
+                  <div className="w-8 h-8 rounded-full border border-slate-100 flex items-center justify-center overflow-hidden">
+                    <img src="/images/jetblue-01.svg" className="w-full h-full object-contain p-1.5" alt="JetBlue" />
+                  </div>
+                  <div>
+                    <p className="text-[10px] text-slate-400 font-medium leading-none mb-1">Starting from</p>
+                    <p className="text-sm font-black text-slate-700 leading-none">8,000 <span className="text-[10px] font-bold text-slate-500">pts</span></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Main Center Card */}
+            <div className="absolute inset-0 flex items-center justify-center animate-float z-20 pointer-events-none [&:has(:hover)]:[animation-play-state:paused]">
+              <div className="pointer-events-auto w-56 h-72 bg-white rounded-3xl shadow-2xl p-2.5 border border-slate-100 hover:scale-105 transition-transform duration-500 cursor-default">
+                <div className="w-full h-48 rounded-[1.25rem] overflow-hidden mb-4 bg-slate-100">
+                  <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&q=80&w=500" className="w-full h-full object-cover" alt="Paris" />
+                </div>
+                <div className="flex items-center gap-3 px-2">
+                  <div className="w-9 h-9 rounded-full border border-slate-100 flex items-center justify-center overflow-hidden">
+                    <img src="/images/ic_finnair_logo-01.svg" className="w-full h-full object-contain p-1.5" alt="Finnair" />
+                  </div>
+                  <div>
+                    <p className="text-[11px] text-slate-400 font-medium leading-none mb-1.5">Starting from</p>
+                    <p className="text-xl font-black text-green-600 leading-none tracking-tight">5,000 <span className="text-xs font-bold text-green-600/70">pts</span></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Floating Pills */}
+            <div className="absolute inset-0 flex items-center justify-center animate-bounce-subtle z-30 pointer-events-none [&:has(:hover)]:[animation-play-state:paused]">
+              <div className="pointer-events-auto absolute top-12 -left-20 bg-green-50 text-green-700 px-5 py-2.5 rounded-xl shadow-lg flex items-center gap-2 border border-green-100/50 hover:scale-105 transition-transform cursor-default backdrop-blur-sm">
+                <Tag size={14} className="text-green-600 fill-green-600" />
+                <span className="text-xs font-bold tracking-wide">ECONOMY CLASS</span>
+              </div>
+            </div>
+
+            <div className="absolute inset-0 flex items-center justify-center animate-float-delayed z-30 pointer-events-none [&:has(:hover)]:[animation-play-state:paused]">
+              <div className="pointer-events-auto absolute top-32 -right-24 bg-indigo-50 text-indigo-700 px-5 py-2.5 rounded-xl shadow-lg flex items-center gap-2 border border-indigo-100/50 hover:scale-105 transition-transform cursor-default backdrop-blur-sm">
+                <Briefcase size={14} className="text-indigo-600 fill-indigo-600" />
+                <span className="text-xs font-bold tracking-wide">BUSINESS CLASS</span>
+              </div>
+            </div>
+            
           </div>
         </div>
+
       </div>
     </section>
   );

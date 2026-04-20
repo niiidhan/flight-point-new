@@ -28,7 +28,7 @@ export default function Pricing() {
     }, []);
 
     return (
-        <section id="pricing" ref={sectionRef} className="min-h-[calc(100vh-72px)] w-full py-16 bg-white border-b border-slate-200 flex flex-col items-center justify-center">
+        <section id="pricing" ref={sectionRef} className="min-h-[calc(100vh-72px)] w-full py-16 bg-white flex flex-col items-center justify-center">
             <div className="mx-auto max-w-4xl px-6">
                 <div className="mx-auto max-w-2xl space-y-3 text-center mb-12 pricing-animate">
                     <h1 className="text-center text-3xl font-black lg:text-4xl tracking-tighter text-slate-900">
