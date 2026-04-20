@@ -186,7 +186,7 @@ const Search = ({ isSearchStarted }) => {
   return (
     <section id="search" ref={sectionRef} className="min-h-[calc(100vh-72px)] w-full flex items-center justify-center transition-colors duration-300 bg-white relative z-50">
       <div className="w-full pl-8 min-h-[calc(100vh-72px)] flex items-center">
-        <div className="search-container w-full relative p-16 pb-28 rounded-l-[3rem] border bg-blue-600 border-blue-500 opacity-0">
+        <div className="search-container w-full relative p-16 pb-28 rounded-l-[3rem] border bg-[#13251a] border-[#1a2e21] opacity-0">
           {/* Animated Left Panel */}
           <div className="absolute left-16 top-1/2 -translate-y-1/2 flex flex-col gap-5 w-52 z-10">
             {/* Stat Card 1 */}
@@ -241,10 +241,10 @@ const Search = ({ isSearchStarted }) => {
             {/* Main Tabs Row - Flights Only */}
             <div className="search-reveal-item w-full flex items-center justify-start gap-3 mb-6 relative z-20 opacity-0">
               <div className="flex flex-col items-center">
-                <span className="text-[10px] font-bold bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-3 py-1 rounded-full mb-1 shadow-lg uppercase tracking-tight">
+                <span className="text-[10px] font-bold bg-gradient-to-r from-emerald-600 to-teal-600 text-white px-3 py-1 rounded-full mb-1 shadow-lg uppercase tracking-tight">
                   Upto 44% Off
                 </span>
-                <button className="flex items-center gap-2 px-8 py-3 rounded-full border border-slate-200/60 transition-all duration-300 font-black text-sm bg-white text-[#2563EB]">
+                <button className="flex items-center gap-2 px-8 py-3 rounded-full border border-slate-200/60 transition-all duration-300 font-black text-sm bg-white text-[#13251a]">
                   <Plane size={16} strokeWidth={2.5} />
                   Flights
                 </button>
@@ -257,8 +257,8 @@ const Search = ({ isSearchStarted }) => {
               <div className="flex items-center gap-8 mb-8">
                 {['One Way', 'Round Trip', 'Multi City'].map((type) => (
                   <label key={type} className="flex items-center gap-2 cursor-pointer group">
-                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all ${tripType === type ? 'border-[#2563EB]' : 'border-slate-300'}`}>
-                      {tripType === type && <div className="w-2.5 h-2.5 rounded-full bg-[#2563EB]" />}
+                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all ${tripType === type ? 'border-[#13251a]' : 'border-slate-300'}`}>
+                      {tripType === type && <div className="w-2.5 h-2.5 rounded-full bg-[#13251a]" />}
                     </div>
                     <input type="radio" className="hidden" checked={tripType === type} onChange={() => setTripType(type)} />
                     <span className={`text-sm font-bold ${tripType === type ? 'text-slate-900' : 'text-slate-500'}`}>{type}</span>
@@ -273,7 +273,7 @@ const Search = ({ isSearchStarted }) => {
                   <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Departure From</p>
                   <h3 className="text-2xl font-black text-slate-800">{fromLocation.city}</h3>
                   <p className="text-[11px] text-slate-500 truncate mt-1">{fromLocation.code}, {fromLocation.airport}</p>
-                  <button onClick={(e) => { e.stopPropagation(); handleSwap(); }} className="absolute right-[-14px] top-1/2 -translate-y-1/2 z-20 p-1.5 rounded-full shadow-sm hidden md:flex items-center justify-center transition-all bg-white border border-slate-200 text-[#2563EB]">
+                  <button onClick={(e) => { e.stopPropagation(); handleSwap(); }} className="absolute right-[-14px] top-1/2 -translate-y-1/2 z-20 p-1.5 rounded-full shadow-sm hidden md:flex items-center justify-center transition-all bg-white border border-slate-200 text-[#13251a]">
                     <ArrowLeftRight size={14} />
                   </button>
                   {showFromDropdown && (
@@ -418,7 +418,7 @@ const Search = ({ isSearchStarted }) => {
 
               {/* Search Button - Positioned on card edge */}
               <div className="absolute left-1/2 -bottom-7 -translate-x-1/2 z-30">
-                <button className="bg-gradient-to-r from-[#2563EB] to-[#1E40AF] text-white px-12 py-3.5 rounded-full text-lg font-black transition-all hover:scale-105 active:scale-95 shadow-xl uppercase tracking-widest">
+                <button className="bg-gradient-to-r from-[#13251a] to-[#0d1a12] text-white px-12 py-3.5 rounded-full text-lg font-black transition-all hover:scale-105 active:scale-95 shadow-xl uppercase tracking-widest">
                   Search
                 </button>
               </div>
