@@ -129,7 +129,37 @@ const Search = ({ isSearchStarted }) => {
     return () => clearInterval(timer);
   }, []);
 
+  // Smart auto-scroll: Only scrolls if the dropdown would be cut off by the screen edge
+  useEffect(() => {
+    if (showFromDropdown || showToDropdown || showDatePicker || showReturnDatePicker || showTravelerDropdown) {
+      const activeRef = showFromDropdown ? fromRef : 
+                        showToDropdown ? toRef : 
+                        showDatePicker ? datePickerRef : 
+                        showReturnDatePicker ? returnDatePickerRef : 
+                        travelerRef;
 
+      if (activeRef.current) {
+        // Small delay to ensure the dropdown is rendered
+        const timer = setTimeout(() => {
+          const rect = activeRef.current.getBoundingClientRect();
+          const dropdownHeight = 380; // Approximate height of the largest dropdown
+          const viewportHeight = window.innerHeight;
+          const distanceToBottom = viewportHeight - rect.bottom;
+
+          // Only scroll if there isn't enough space for the dropdown
+          if (distanceToBottom < dropdownHeight) {
+            const scrollAmount = dropdownHeight - distanceToBottom + 40; // +40 for extra breathing room
+            window.scrollBy({
+              top: scrollAmount,
+              behavior: 'smooth'
+            });
+          }
+        }, 100);
+
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [showFromDropdown, showToDropdown, showDatePicker, showReturnDatePicker, showTravelerDropdown]);
 
   useLayoutEffect(() => {
     if (isVisible) {
@@ -154,8 +184,8 @@ const Search = ({ isSearchStarted }) => {
   }, [isVisible]);
 
   return (
-    <section id="search" ref={sectionRef} className="min-h-[calc(100vh-72px)] w-full flex items-center justify-center transition-colors duration-300 bg-white overflow-hidden">
-      <div className="w-full pl-8 min-h-[calc(100vh-72px)] flex items-center overflow-hidden">
+    <section id="search" ref={sectionRef} className="min-h-[calc(100vh-72px)] w-full flex items-center justify-center transition-colors duration-300 bg-white relative z-50">
+      <div className="w-full pl-8 min-h-[calc(100vh-72px)] flex items-center">
         <div className="search-container w-full relative p-16 pb-28 rounded-l-[3rem] border bg-blue-600 border-blue-500 opacity-0">
           {/* Animated Left Panel */}
           <div className="absolute left-16 top-1/2 -translate-y-1/2 flex flex-col gap-5 w-52 z-10">
@@ -247,11 +277,11 @@ const Search = ({ isSearchStarted }) => {
                     <ArrowLeftRight size={14} />
                   </button>
                   {showFromDropdown && (
-                    <div className="absolute top-full left-[-1px] w-[350px] rounded-b-xl z-40 border overflow-hidden animate-dropdown-open bg-white border-slate-200" onClick={(e) => e.stopPropagation()}>
+                    <div className="absolute top-full left-[-1px] w-[350px] rounded-b-xl z-[999] border overflow-hidden animate-dropdown-open bg-white border-slate-200" onClick={(e) => e.stopPropagation()}>
                       <div className="p-3 border-b border-white/5">
                         <div className="flex items-center gap-2 border rounded-lg px-4 py-1.5 bg-slate-50 border-slate-200">
                           <SearchIcon size={14} className="text-slate-400" />
-                          <input type="text" placeholder="From where?" className="bg-transparent border-none outline-none text-xs w-full font-bold placeholder:text-slate-500 text-slate-800" value={fromSearch} onChange={(e) => setFromSearch(e.target.value)} onKeyDown={handleKeyDownFrom} />
+                          <input autoFocus type="text" placeholder="From where?" className="bg-transparent border-none outline-none text-xs w-full font-bold placeholder:text-slate-500 text-slate-800" value={fromSearch} onChange={(e) => setFromSearch(e.target.value)} onKeyDown={handleKeyDownFrom} />
                         </div>
                       </div>
                       <div className="max-h-[265px] overflow-y-auto py-1 scrollbar-hide">
@@ -275,11 +305,11 @@ const Search = ({ isSearchStarted }) => {
                   <h3 className="text-2xl font-black text-slate-800">{toLocation.city}</h3>
                   <p className="text-[11px] text-slate-500 truncate mt-1">{toLocation.code}, {toLocation.airport}</p>
                   {showToDropdown && (
-                    <div className="absolute top-full left-[-1px] w-[350px] rounded-b-xl z-40 border overflow-hidden animate-dropdown-open bg-white border-slate-200" onClick={(e) => e.stopPropagation()}>
+                    <div className="absolute top-full left-[-1px] w-[350px] rounded-b-xl z-[999] border overflow-hidden animate-dropdown-open bg-white border-slate-200" onClick={(e) => e.stopPropagation()}>
                       <div className="p-3 border-b border-white/5">
                         <div className="flex items-center gap-2 border rounded-lg px-4 py-1.5 bg-slate-50 border-slate-200">
                           <SearchIcon size={14} className="text-slate-400" />
-                          <input type="text" placeholder="To where?" className="bg-transparent border-none outline-none text-xs w-full font-bold placeholder:text-slate-500 text-slate-800" value={toSearch} onChange={(e) => setToSearch(e.target.value)} onKeyDown={handleKeyDownTo} />
+                          <input autoFocus type="text" placeholder="To where?" className="bg-transparent border-none outline-none text-xs w-full font-bold placeholder:text-slate-500 text-slate-800" value={toSearch} onChange={(e) => setToSearch(e.target.value)} onKeyDown={handleKeyDownTo} />
                         </div>
                       </div>
                       <div className="max-h-[265px] overflow-y-auto py-1 scrollbar-hide">
@@ -306,7 +336,7 @@ const Search = ({ isSearchStarted }) => {
                   <h3 className="text-2xl font-black text-slate-800">{format(departureDate, 'd')} <span className="text-lg font-bold">{format(departureDate, "MMM'' yy")}</span></h3>
                   <p className="text-[11px] text-slate-500 mt-1">{format(departureDate, 'EEEE')}</p>
                   {showDatePicker && (
-                    <div className="absolute top-full left-[-1px] z-50 bg-white border border-slate-200 rounded-b-xl p-2" onClick={(e) => e.stopPropagation()}>
+                    <div className="absolute top-full left-[-1px] z-[999] bg-white border border-slate-200 rounded-b-xl p-2" onClick={(e) => e.stopPropagation()}>
                       <DatePicker selected={departureDate} onChange={(date) => { setDepartureDate(date); setShowDatePicker(false); }} inline minDate={new Date()} />
                     </div>
                   )}
@@ -327,7 +357,7 @@ const Search = ({ isSearchStarted }) => {
                     <h3 className="text-sm font-bold text-[#2563EB] leading-tight mt-2">Book Round Trip<br /><span className="text-[11px] font-medium text-slate-400">to save extra</span></h3>
                   )}
                   {showReturnDatePicker && (
-                    <div className="absolute top-full left-[-1px] z-50 bg-white border border-slate-200 rounded-b-xl p-2" onClick={(e) => e.stopPropagation()}>
+                    <div className="absolute top-full left-[-1px] z-[999] bg-white border border-slate-200 rounded-b-xl p-2" onClick={(e) => e.stopPropagation()}>
                       <DatePicker selected={returnDate} onChange={(date) => { setReturnDate(date); setShowReturnDatePicker(false); setTripType('Round Trip'); }} inline minDate={departureDate} />
                     </div>
                   )}
@@ -342,7 +372,7 @@ const Search = ({ isSearchStarted }) => {
                   <h3 className="text-2xl font-black text-slate-800">{adults + children} <span className="text-lg font-bold">Total</span></h3>
                   <p className="text-[11px] text-slate-500 mt-1">{cabinClass}</p>
                   {showTravelerDropdown && (
-                    <div className="absolute top-full right-[-1px] w-[300px] z-50 border rounded-b-xl p-5 animate-dropdown-open bg-white border-slate-200" onClick={(e) => e.stopPropagation()}>
+                    <div className="absolute top-full right-[-1px] w-[300px] z-[999] border rounded-b-xl p-5 animate-dropdown-open bg-white border-slate-200" onClick={(e) => e.stopPropagation()}>
                       <div className="flex items-center justify-between mb-4">
                         <div><p className="text-sm font-bold text-slate-800">Adults</p><p className="text-[10px] text-slate-500">18+</p></div>
                         <div className="flex items-center gap-3">
