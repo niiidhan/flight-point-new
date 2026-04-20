@@ -30,17 +30,9 @@
   -moz-osx-smoothing: grayscale;
 }
 
-:root.dark-theme {
-  color-scheme: dark;
-  --bg-color: #0F172A;
-  --text-color: #FFFFFF;
-  --primary-color: #2563EB;
-  --primary-hover: #1D4ED8;
-  --border-color: rgba(255, 255, 255, 0.1);
-}
-
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 72px;
 }
 
 @keyframes fluidExpand {
@@ -67,13 +59,11 @@ body {
   min-height: 100vh;
   background-color: var(--bg-color);
   color: var(--text-color);
-  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Base section styles */
 section {
   width: 100%;
-  height: 100vh;
   background-color: transparent;
   display: flex;
   align-items: center;
@@ -86,7 +76,7 @@ section {
   background-color: var(--border-color);
 }
 
-/* Custom Scrollbar Styles */
+/* Custom Scrollbar Styles - Dark Theme */
 ::-webkit-scrollbar {
   width: 10px;
 }
@@ -185,4 +175,56 @@ section {
 
 .react-datepicker__navigation {
   top: 1rem !important;
+}
+
+@keyframes floatCard1 {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes floatCard2 {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+}
+
+@keyframes floatCard3 {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes barPulse {
+  from { opacity: 0.3; transform: scaleY(0.6); }
+  to { opacity: 1; transform: scaleY(1); }
+}
+
+@keyframes progressPulse {
+  0%, 100% { width: 65%; }
+  50% { width: 80%; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes floatDelayed {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+
+@keyframes bounceSubtle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: floatDelayed 8s ease-in-out infinite;
+}
+
+.animate-bounce-subtle {
+  animation: bounceSubtle 4s ease-in-out infinite;
 }

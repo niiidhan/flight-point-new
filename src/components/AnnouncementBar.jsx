@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import { X } from 'lucide-react';
 import gsap from 'gsap';
 
-const AnnouncementBar = ({ isDarkMode }) => {
+const AnnouncementBar = () => {
   const [isVisible, setIsVisible] = useState(true);
   const barRef = useRef(null);
 

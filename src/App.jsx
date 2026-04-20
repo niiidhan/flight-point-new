@@ -10,7 +10,6 @@ import Footer from './components/Footer';
 import LoadingScreen from './components/LoadingScreen';
 
 function App() {
-  const [isDarkMode, setIsDarkMode] = useState(false);
   const [isLoading, setIsLoading] = useState(() => {
     // Check if the site has already loaded in this session
     return !sessionStorage.getItem('hasLoaded');
@@ -31,29 +30,19 @@ function App() {
     }
   }, [isLoading]);
 
-  useEffect(() => {
-    if (isDarkMode) {
-      document.documentElement.classList.add('dark-theme');
-    } else {
-      document.documentElement.classList.remove('dark-theme');
-    }
-  }, [isDarkMode]);
-
-  const toggleTheme = () => {
-    setIsDarkMode(!isDarkMode);
-  };
+  const [isSearchStarted, setIsSearchStarted] = useState(false);
 
   return (
     <main className="min-h-screen">
       {isLoading && <LoadingScreen />}
-      
-      <AnnouncementBar isDarkMode={isDarkMode} />
-      <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
-      <Hero isDarkMode={isDarkMode} />
-      <Explore isDarkMode={isDarkMode} />
-      <About isDarkMode={isDarkMode} />
-      <Pricing isDarkMode={isDarkMode} />
-      <Footer isDarkMode={isDarkMode} />
+
+      <AnnouncementBar />
+      <Navbar isInsideHero={false} />
+      <Hero isSearchStarted={isSearchStarted} setIsSearchStarted={setIsSearchStarted} />
+      <Explore isSearchStarted={isSearchStarted} />
+      <About />
+      <Pricing />
+      <Footer />
     </main>
   );
 }
