@@ -105,7 +105,7 @@ const Navbar = ({ isInsideHero }) => {
   return (
     <>
       <nav
-        className={`w-full flex items-center justify-between z-[2000] transition-all duration-300 animate-reveal-down ${isInsideHero
+        className={`w-full flex items-center justify-between md:z-[3000] z-[2000] transition-all duration-300 animate-reveal-down ${isInsideHero
           ? (isScrolled
             ? "fixed top-0 left-0 w-full px-12 bg-white border-b border-slate-200 shadow-sm"
             : "relative px-8 bg-white border-b border-slate-200/50")

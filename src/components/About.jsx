@@ -320,7 +320,7 @@ const About = () => {
         <section className="about-panel w-full h-auto min-h-[50vh] lg:w-screen lg:h-full flex items-center justify-center bg-white p-4 lg:p-[2.5vw]">
           <div className="w-full h-auto py-12 lg:py-0 lg:h-full max-w-[1920px] flex flex-col items-center justify-center lg:rounded-[3rem] lg:border lg:border-slate-200 lg:bg-white mx-auto relative overflow-hidden">
             <div className="flex flex-col items-start text-left lg:items-center lg:text-center px-8 lg:px-12 max-w-4xl w-full">
-              <h2 className="text-3xl lg:text-5xl font-bold text-slate-900 mb-6 lg:mb-10 tracking-tight reveal-item text-center lg:text-left w-full" style={{ fontFamily: 'CustomFont' }}>
+              <h2 className="text-3xl lg:text-5xl font-bold text-slate-900 mb-6 lg:mb-10 tracking-tight reveal-item text-center lg:text-center w-full" style={{ fontFamily: 'CustomFont' }}>
                 Discover Transfer Partners
               </h2>
 

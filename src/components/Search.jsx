@@ -154,16 +154,25 @@ const Search = ({ isSearchStarted }) => {
   useEffect(() => {
     const isDesktop = typeof window !== 'undefined' && window.innerWidth > 768;
     if (isDesktop && (showFromDropdown || showToDropdown || showDatePicker || showReturnDatePicker || showTravelerDropdown || showFareDropdown)) {
-      setTimeout(() => {
-        const activeDropdown = document.querySelector('.dropdown-transition.show, .react-datepicker');
-        if (activeDropdown) {
-          const rect = activeDropdown.getBoundingClientRect();
-          const viewportBottom = window.innerHeight;
-          if (rect.bottom > viewportBottom) {
-            window.scrollBy({ top: rect.bottom - viewportBottom + 40, behavior: 'smooth' });
-          }
+      const activeDropdown = document.querySelector('.dropdown-transition.show');
+      if (activeDropdown) {
+        const parentRect = activeDropdown.parentElement.getBoundingClientRect();
+        const dropdownHeight = activeDropdown.scrollHeight;
+        const dropdownBottom = parentRect.bottom + dropdownHeight;
+        const viewportBottom = window.innerHeight;
+
+        if (dropdownBottom > viewportBottom) {
+          const scrollDelta = dropdownBottom - viewportBottom + 40;
+          gsap.to({ y: window.scrollY }, {
+            y: window.scrollY + scrollDelta,
+            duration: 0.8,
+            ease: "power3.out",
+            onUpdate: function () {
+              window.scrollTo(0, this.targets()[0].y);
+            }
+          });
         }
-      }, 150);
+      }
     }
   }, [showFromDropdown, showToDropdown, showDatePicker, showReturnDatePicker, showTravelerDropdown, showFareDropdown]);
 
@@ -391,9 +400,9 @@ const Search = ({ isSearchStarted }) => {
               </div>
 
               {/* Input Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-5 border rounded-t-2xl mb-8 relative border-slate-200">
+              <div className="grid grid-cols-1 md:grid-cols-5 border rounded-2xl mb-8 relative border-slate-200">
                 {/* Departure From */}
-                <div ref={fromRef} className="p-4 border-b md:border-b-0 md:border-r transition-colors cursor-pointer relative group rounded-tl-2xl border-slate-200 hover:bg-slate-50" onClick={() => setShowFromDropdown(true)}>
+                <div ref={fromRef} className="p-4 border-b md:border-b-0 md:border-r transition-colors cursor-pointer relative group rounded-t-2xl md:rounded-tr-none md:rounded-l-2xl border-slate-200 hover:bg-slate-50" onClick={() => setShowFromDropdown(true)}>
                   <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Departure From</p>
                   <h3 className="text-2xl font-black text-slate-800">{fromLocation.city}</h3>
                   <p className="text-[11px] text-slate-500 truncate mt-1">{fromLocation.code}, {fromLocation.airport}</p>
@@ -402,7 +411,7 @@ const Search = ({ isSearchStarted }) => {
                   </button>
 
                   {/* Desktop Dropdown */}
-                  <div className={`hidden md:block absolute top-full left-[-1px] w-[350px] rounded-b-xl z-[999] border overflow-hidden bg-white border-slate-200 dropdown-transition ${showFromDropdown ? 'show' : ''}`} onClick={(e) => e.stopPropagation()}>
+                  <div className={`hidden md:block absolute top-full left-[-1px] w-[350px] rounded-xl z-[999] border overflow-hidden bg-white border-slate-200 dropdown-transition ${showFromDropdown ? 'show' : ''}`} onClick={(e) => e.stopPropagation()}>
                     <div className="p-3 border-b border-white/5">
                       <div className="flex items-center gap-2 border rounded-lg px-4 py-1.5 bg-slate-50 border-slate-200">
                         <SearchIcon size={14} className="text-slate-400" />
@@ -430,7 +439,7 @@ const Search = ({ isSearchStarted }) => {
                   <p className="text-[11px] text-slate-500 truncate mt-1">{toLocation.code}, {toLocation.airport}</p>
 
                   {/* Desktop Dropdown */}
-                  <div className={`hidden md:block absolute top-full left-[-1px] w-[350px] rounded-b-xl z-[999] border overflow-hidden bg-white border-slate-200 dropdown-transition ${showToDropdown ? 'show' : ''}`} onClick={(e) => e.stopPropagation()}>
+                  <div className={`hidden md:block absolute top-full left-[-1px] w-[350px] rounded-xl z-[999] border overflow-hidden bg-white border-slate-200 dropdown-transition ${showToDropdown ? 'show' : ''}`} onClick={(e) => e.stopPropagation()}>
                     <div className="p-3 border-b border-white/5">
                       <div className="flex items-center gap-2 border rounded-lg px-4 py-1.5 bg-slate-50 border-slate-200">
                         <SearchIcon size={14} className="text-slate-400" />
@@ -460,7 +469,7 @@ const Search = ({ isSearchStarted }) => {
                   <h3 className="text-2xl font-black text-slate-800">{format(departureDate, 'd')} <span className="text-lg font-bold">{format(departureDate, "MMM'' yy")}</span></h3>
                   <p className="text-[11px] text-slate-500 mt-1">{format(departureDate, 'EEEE')}</p>
 
-                  <div className={`hidden md:block absolute top-full left-[-1px] z-[999] bg-white border border-slate-200 rounded-b-xl p-2 dropdown-transition ${showDatePicker ? 'show' : ''}`} onClick={(e) => e.stopPropagation()}>
+                  <div className={`hidden md:block absolute top-full left-[-1px] z-[999] bg-white border border-slate-200 rounded-xl p-2 dropdown-transition ${showDatePicker ? 'show' : ''}`} onClick={(e) => e.stopPropagation()}>
                     <DatePicker selected={departureDate} onChange={(date) => { setDepartureDate(date); setShowDatePicker(false); }} inline minDate={new Date()} />
                   </div>
                 </div>
@@ -480,13 +489,13 @@ const Search = ({ isSearchStarted }) => {
                     <h3 className="text-sm font-bold text-[#2563EB] leading-tight mt-2">Book Round Trip<br /><span className="text-[11px] font-medium text-slate-400">to save extra</span></h3>
                   )}
 
-                  <div className={`hidden md:block absolute top-full left-[-1px] z-[999] bg-white border border-slate-200 rounded-b-xl p-2 dropdown-transition ${showReturnDatePicker ? 'show' : ''}`} onClick={(e) => e.stopPropagation()}>
+                  <div className={`hidden md:block absolute top-full left-[-1px] z-[999] bg-white border border-slate-200 rounded-xl p-2 dropdown-transition ${showReturnDatePicker ? 'show' : ''}`} onClick={(e) => e.stopPropagation()}>
                     <DatePicker selected={returnDate} onChange={(date) => { setReturnDate(date); setShowReturnDatePicker(false); setTripType('Round Trip'); }} inline minDate={departureDate} />
                   </div>
                 </div>
 
                 {/* Travelers */}
-                <div ref={travelerRef} className="p-4 transition-colors cursor-pointer relative md:rounded-tr-2xl hover:bg-slate-50" onClick={() => setShowTravelerDropdown(!showTravelerDropdown)}>
+                <div ref={travelerRef} className="p-4 transition-colors cursor-pointer relative md:rounded-r-2xl hover:bg-slate-50" onClick={() => setShowTravelerDropdown(!showTravelerDropdown)}>
                   <div className="flex items-center gap-1">
                     <p className="text-xs text-slate-400 font-bold uppercase tracking-tight mb-1">Travellers</p>
                     <ChevronDown size={14} className={`text-slate-400 transition-transform ${showTravelerDropdown ? 'rotate-180' : ''}`} />
@@ -494,7 +503,7 @@ const Search = ({ isSearchStarted }) => {
                   <h3 className="text-2xl font-black text-slate-800">{adults + children + infants} <span className="text-lg font-bold">Total</span></h3>
                   <p className="text-[11px] text-slate-500 mt-1">{cabinClass}</p>
 
-                  <div className={`hidden md:block absolute top-full right-[-1px] w-[300px] z-[999] border rounded-b-xl p-5 bg-white border-slate-200 dropdown-transition ${showTravelerDropdown ? 'show' : ''}`} onClick={(e) => e.stopPropagation()}>
+                  <div className={`hidden md:block absolute top-full right-[-1px] w-[300px] z-[999] border rounded-xl p-5 bg-white border-slate-200 dropdown-transition ${showTravelerDropdown ? 'show' : ''}`} onClick={(e) => e.stopPropagation()}>
                     <div className="flex items-center justify-between mb-4">
                       <div><p className="text-sm font-bold text-slate-800">Adults</p><p className="text-[10px] text-slate-500">18+</p></div>
                       <div className="flex items-center gap-3">
@@ -532,7 +541,7 @@ const Search = ({ isSearchStarted }) => {
                 </div>
 
                 {/* Fare Type Dropdown (Mobile Only) */}
-                <div ref={fareRef} className="md:hidden p-4 transition-colors cursor-pointer relative hover:bg-slate-50" onClick={() => setShowFareDropdown(!showFareDropdown)}>
+                <div ref={fareRef} className="md:hidden p-4 transition-colors cursor-pointer relative rounded-b-2xl hover:bg-slate-50" onClick={() => setShowFareDropdown(!showFareDropdown)}>
                   <div className="flex items-center gap-1">
                     <p className="text-xs text-slate-400 font-bold uppercase tracking-tight mb-1">Fare Type</p>
                     <ChevronDown size={14} className={`text-slate-400 transition-transform ${showFareDropdown ? 'rotate-180' : ''}`} />
