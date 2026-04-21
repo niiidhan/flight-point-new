@@ -128,25 +128,54 @@ const About = () => {
       });
 
       // Animate elements inside each panel as they come into view
-      panels.forEach((panel) => {
+      panels.forEach((panel, index) => {
         const revealItems = panel.querySelectorAll(".reveal-item");
         if (revealItems.length) {
-          gsap.from(revealItems, {
-            y: 40,
-            scale: 0.98,
-            opacity: 0,
-            duration: 1.2,
-            stagger: 0.1,
-            ease: "expo.out",
-            immediateRender: false,
-            scrollTrigger: {
-              trigger: panel,
-              containerAnimation: scrollTween,
-              start: "left 95%",
-              toggleActions: "play none none none"
-            },
-            clearProps: "transform,opacity" // Ensure layout is clean after animation
-          });
+          if (index === 0) {
+            // Screen 1: Premium Shutter Reveal + Intro Animation
+            const shutterL = panel.querySelector('.shutter-l');
+            const shutterR = panel.querySelector('.shutter-r');
+            
+            const tl = gsap.timeline({
+              scrollTrigger: {
+                trigger: component.current,
+                start: "top 80%",
+                toggleActions: "play none none none"
+              }
+            });
+
+            tl.to([shutterL, shutterR], {
+              scaleX: 0,
+              duration: 1.2,
+              ease: "expo.inOut",
+              stagger: 0.05
+            })
+            .from(revealItems, {
+              y: 40,
+              opacity: 0,
+              duration: 0.8,
+              stagger: 0.15,
+              ease: "power4.out"
+            }, "-=0.8");
+          } else {
+            // Subsequent screens: Tied to horizontal scroll progress
+            gsap.from(revealItems, {
+              y: 40,
+              scale: 0.98,
+              opacity: 0,
+              duration: 1.2,
+              stagger: 0.1,
+              ease: "expo.out",
+              immediateRender: false,
+              scrollTrigger: {
+                trigger: panel,
+                containerAnimation: scrollTween,
+                start: "left 95%",
+                toggleActions: "play none none none"
+              },
+              clearProps: "transform,opacity" // Ensure layout is clean after animation
+            });
+          }
         }
       });
     }, component);
@@ -192,8 +221,12 @@ const About = () => {
       <div ref={slider} className="flex h-full bg-white" style={{ width: '500vw' }}>
 
         {/* Screen 1: Original Identity */}
-        <section className="about-panel w-screen h-full flex flex-col items-center justify-center text-center bg-white">
-          <div className="w-[85vw] h-[75vh] flex flex-col items-center justify-center rounded-[5rem] border border-slate-200 bg-white mx-auto">
+        <section className="about-panel w-screen h-full flex flex-col items-center justify-center text-center bg-white relative overflow-hidden">
+          <div className="w-[85vw] h-[75vh] flex flex-col items-center justify-center rounded-[5rem] border border-slate-200 bg-white mx-auto relative overflow-hidden">
+            {/* Shutter Reveal Elements */}
+            <div className="shutter-l absolute top-0 left-0 w-1/2 h-full bg-white z-20 origin-left border-r border-slate-50"></div>
+            <div className="shutter-r absolute top-0 right-0 w-1/2 h-full bg-white z-20 origin-right border-l border-slate-50"></div>
+            
             <div className="mb-12 reveal-item">
               <img
                 src="/images/LOGO.svg"
