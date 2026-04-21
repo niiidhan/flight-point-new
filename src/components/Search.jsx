@@ -87,6 +87,31 @@ const Search = ({ isSearchStarted }) => {
     airport.code.toLowerCase().includes(toSearch.toLowerCase()) ||
     airport.airport.toLowerCase().includes(toSearch.toLowerCase())
   );
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: "#search",
+          start: "top 75%",
+        }
+      });
+
+      tl.from(".search-container", {
+        x: 100,
+        opacity: 0,
+        duration: 1.2,
+        ease: "power3.out"
+      })
+        .to(".search-reveal-item", {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          stagger: 0.1,
+          ease: "power2.out"
+        }, "-=0.8");
+    });
+    return () => ctx.revert();
+  }, []);
 
   const handleKeyDownFrom = (e) => {
     if (e.key === 'ArrowDown') setSelectedIndexFrom(prev => (prev < filteredFromAirports.length - 1 ? prev + 1 : prev));
@@ -158,7 +183,7 @@ const Search = ({ isSearchStarted }) => {
       if (activeDropdown) {
         const parentRect = activeDropdown.parentElement.getBoundingClientRect();
         const dropdownHeight = activeDropdown.scrollHeight;
-        const dropdownBottom = parentRect.bottom + dropdownHeight;
+        const dropdownBottom = parentRect.bottom + dropdownHeight + 12; // 12px is the new gap offset
         const viewportBottom = window.innerHeight;
 
         if (dropdownBottom > viewportBottom) {
@@ -310,7 +335,7 @@ const Search = ({ isSearchStarted }) => {
               </div>
             </div>
 
-            <button className="w-[60%] mx-auto block mt-6 py-4 bg-[#13251a] text-white rounded-2xl font-black text-xs active:scale-95 transition-transform uppercase tracking-widest">
+            <button className="w-[60%] mx-auto block mt-6 py-4 bg-[#2563EB] text-white rounded-2xl font-black text-xs active:scale-95 transition-transform uppercase tracking-widest">
               Search Flights
             </button>
           </div>
@@ -411,7 +436,7 @@ const Search = ({ isSearchStarted }) => {
                   </button>
 
                   {/* Desktop Dropdown */}
-                  <div className={`hidden md:block absolute top-full left-[-1px] w-[350px] rounded-xl z-[999] border overflow-hidden bg-white border-slate-200 dropdown-transition ${showFromDropdown ? 'show' : ''}`} onClick={(e) => e.stopPropagation()}>
+                  <div className={`hidden md:block absolute top-[calc(100%+12px)] left-[-1px] w-[350px] rounded-xl z-[999] border overflow-hidden bg-white border-slate-200 dropdown-transition ${showFromDropdown ? 'show' : ''}`} onClick={(e) => e.stopPropagation()}>
                     <div className="p-3 border-b border-white/5">
                       <div className="flex items-center gap-2 border rounded-lg px-4 py-1.5 bg-slate-50 border-slate-200">
                         <SearchIcon size={14} className="text-slate-400" />
@@ -439,7 +464,7 @@ const Search = ({ isSearchStarted }) => {
                   <p className="text-[11px] text-slate-500 truncate mt-1">{toLocation.code}, {toLocation.airport}</p>
 
                   {/* Desktop Dropdown */}
-                  <div className={`hidden md:block absolute top-full left-[-1px] w-[350px] rounded-xl z-[999] border overflow-hidden bg-white border-slate-200 dropdown-transition ${showToDropdown ? 'show' : ''}`} onClick={(e) => e.stopPropagation()}>
+                  <div className={`hidden md:block absolute top-[calc(100%+12px)] left-[-1px] w-[350px] rounded-xl z-[999] border overflow-hidden bg-white border-slate-200 dropdown-transition ${showToDropdown ? 'show' : ''}`} onClick={(e) => e.stopPropagation()}>
                     <div className="p-3 border-b border-white/5">
                       <div className="flex items-center gap-2 border rounded-lg px-4 py-1.5 bg-slate-50 border-slate-200">
                         <SearchIcon size={14} className="text-slate-400" />
@@ -469,7 +494,7 @@ const Search = ({ isSearchStarted }) => {
                   <h3 className="text-2xl font-black text-slate-800">{format(departureDate, 'd')} <span className="text-lg font-bold">{format(departureDate, "MMM'' yy")}</span></h3>
                   <p className="text-[11px] text-slate-500 mt-1">{format(departureDate, 'EEEE')}</p>
 
-                  <div className={`hidden md:block absolute top-full left-[-1px] z-[999] bg-white border border-slate-200 rounded-xl p-2 dropdown-transition ${showDatePicker ? 'show' : ''}`} onClick={(e) => e.stopPropagation()}>
+                  <div className={`hidden md:block absolute top-[calc(100%+12px)] left-[-1px] z-[999] bg-white border border-slate-200 rounded-xl p-2 dropdown-transition ${showDatePicker ? 'show' : ''}`} onClick={(e) => e.stopPropagation()}>
                     <DatePicker selected={departureDate} onChange={(date) => { setDepartureDate(date); setShowDatePicker(false); }} inline minDate={new Date()} />
                   </div>
                 </div>
@@ -489,7 +514,7 @@ const Search = ({ isSearchStarted }) => {
                     <h3 className="text-sm font-bold text-[#2563EB] leading-tight mt-2">Book Round Trip<br /><span className="text-[11px] font-medium text-slate-400">to save extra</span></h3>
                   )}
 
-                  <div className={`hidden md:block absolute top-full left-[-1px] z-[999] bg-white border border-slate-200 rounded-xl p-2 dropdown-transition ${showReturnDatePicker ? 'show' : ''}`} onClick={(e) => e.stopPropagation()}>
+                  <div className={`hidden md:block absolute top-[calc(100%+12px)] left-[-1px] z-[999] bg-white border border-slate-200 rounded-xl p-2 dropdown-transition ${showReturnDatePicker ? 'show' : ''}`} onClick={(e) => e.stopPropagation()}>
                     <DatePicker selected={returnDate} onChange={(date) => { setReturnDate(date); setShowReturnDatePicker(false); setTripType('Round Trip'); }} inline minDate={departureDate} />
                   </div>
                 </div>
@@ -503,7 +528,7 @@ const Search = ({ isSearchStarted }) => {
                   <h3 className="text-2xl font-black text-slate-800">{adults + children + infants} <span className="text-lg font-bold">Total</span></h3>
                   <p className="text-[11px] text-slate-500 mt-1">{cabinClass}</p>
 
-                  <div className={`hidden md:block absolute top-full right-[-1px] w-[300px] z-[999] border rounded-xl p-5 bg-white border-slate-200 dropdown-transition ${showTravelerDropdown ? 'show' : ''}`} onClick={(e) => e.stopPropagation()}>
+                  <div className={`hidden md:block absolute top-[calc(100%+12px)] right-[-1px] w-[300px] z-[999] border rounded-xl p-5 bg-white border-slate-200 dropdown-transition ${showTravelerDropdown ? 'show' : ''}`} onClick={(e) => e.stopPropagation()}>
                     <div className="flex items-center justify-between mb-4">
                       <div><p className="text-sm font-bold text-slate-800">Adults</p><p className="text-[10px] text-slate-500">18+</p></div>
                       <div className="flex items-center gap-3">
@@ -566,7 +591,7 @@ const Search = ({ isSearchStarted }) => {
 
               {/* Search Button - Positioned on card edge */}
               <div className="absolute left-1/2 -bottom-7 -translate-x-1/2 z-30">
-                <button className="bg-gradient-to-r from-[#13251a] to-[#0d1a12] text-white px-12 py-3.5 rounded-full text-lg font-black transition-all hover:scale-105 active:scale-95 shadow-xl uppercase tracking-widest">
+                <button className="bg-[#2563EB] text-white px-12 py-3.5 rounded-full text-lg font-black transition-all hover:bg-[#1d4ed8] hover:scale-105 active:scale-95 shadow-xl uppercase tracking-widest">
                   Search
                 </button>
               </div>
