@@ -9,30 +9,16 @@ import About from './components/About';
 import Pricing from './components/Pricing';
 import Footer from './components/Footer';
 import LoadingScreen from './components/LoadingScreen';
-import MobileBlocker from './components/MobileBlocker';
 
 function App() {
   const [isLoading, setIsLoading] = useState(() => {
     return !sessionStorage.getItem('hasLoaded');
   });
 
-  const [isMobile, setIsMobile] = useState(false);
-
-  useLayoutEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    
     if ('scrollRestoration' in window.history) {
       window.history.scrollRestoration = 'manual';
     }
     window.scrollTo(0, 0);
-
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
 
   useEffect(() => {
     if (isLoading) {
@@ -53,21 +39,15 @@ function App() {
 
   return (
     <main className="min-h-screen">
-      {isMobile ? (
-        <MobileBlocker />
-      ) : (
-        <>
-          {isLoading && <LoadingScreen />}
-          <AnnouncementBar />
-          <Navbar isInsideHero={false} />
-          <Hero isSearchStarted={isSearchStarted} setIsSearchStarted={setIsSearchStarted} />
-          <Search isSearchStarted={isSearchStarted} />
-          <Explore />
-          <Pricing />
-          <About />
-          <Footer />
-        </>
-      )}
+      {isLoading && <LoadingScreen />}
+      <AnnouncementBar />
+      <Navbar isInsideHero={false} />
+      <Hero isSearchStarted={isSearchStarted} setIsSearchStarted={setIsSearchStarted} />
+      <Search isSearchStarted={isSearchStarted} />
+      <Explore />
+      <Pricing />
+      <About />
+      <Footer />
     </main>
   );
 }

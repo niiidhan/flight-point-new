@@ -170,25 +170,16 @@ const Explore = () => {
         ease: "power4.out",
         clearProps: "all"
       });
-
-      // Subtle pulse for the header icon
-      gsap.to(".radar-icon", {
-        scale: 1.1,
-        duration: 2,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut"
-      });
     }, sectionRef);
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <section 
-      id="explore" 
+    <section
+      id="explore"
       ref={sectionRef}
-      className="h-[calc(100vh-72px)] w-full bg-[#F8FAFC] flex items-center justify-center p-2 md:p-4 lg:p-6 overflow-hidden"
+      className="min-h-[calc(100vh-72px)] h-auto md:h-[calc(100vh-72px)] w-full bg-[#F8FAFC] flex items-center justify-center p-3 md:p-4 lg:p-6 md:overflow-hidden"
     >
       <style>
         {`
@@ -216,15 +207,15 @@ const Explore = () => {
         `}
       </style>
 
-      <div className="w-full h-full max-w-[1600px] grid grid-cols-4 md:grid-cols-12 gap-2 md:gap-3 overflow-hidden pb-20 md:pb-0">
+      <div className="w-full h-full max-w-[1600px] grid grid-cols-4 md:grid-cols-12 gap-4 md:gap-3 py-10 md:py-0">
 
         {/* 1. Left Column (Dynamic Price Radar) */}
-        <div 
+        <div
           ref={leftColRef}
-          className="col-span-2 md:col-span-3 bg-white rounded-3xl relative border border-gray-200 z-10 flex flex-col overflow-hidden group"
+          className="col-span-4 md:col-span-3 bg-white rounded-3xl relative border border-gray-200 z-10 flex flex-col overflow-hidden group shadow-sm"
         >
-          <div className="p-5 md:p-6 flex flex-col h-full">
-            
+          <div className="p-6 md:p-6 flex flex-col h-full">
+
             {/* Header */}
             <div className="flex items-center gap-3 mb-6">
               <div className="w-12 h-12 flex items-center justify-center bg-[#F0FDF4] text-[#22C55E] rounded-2xl relative shrink-0 radar-icon">
@@ -240,7 +231,7 @@ const Explore = () => {
             <div className="bg-white rounded-xl p-4 border-[0.5px] border-slate-200/60 flex flex-col gap-1 w-full mb-6">
               <div className="font-bold text-[10px] uppercase tracking-wider text-gray-400 mb-0.5">Cheapest Today</div>
               <div className="flex items-baseline justify-between mb-1 gap-2">
-                <div className="flex items-center gap-2 font-medium text-[#110B45] text-[22px] shrink-0">
+                <div className="flex items-center gap-2 font-medium text-[#110B45] text-2xl md:text-[22px] shrink-0">
                   NYC <ArrowRight className="w-3.5 h-3.5 text-gray-300" strokeWidth={2.5} /> LON
                 </div>
                 <div className="font-medium text-black/70 text-xl tracking-tight leading-none whitespace-nowrap">
@@ -254,10 +245,10 @@ const Explore = () => {
             </div>
 
             {/* Destination Image Box */}
-            <div className="flex-1 relative min-h-[180px] my-4 w-full overflow-hidden rounded-2xl border-[0.5px] border-slate-200/60 group/img">
-              <img 
-                src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&q=80&w=1000" 
-                alt="London Skyline" 
+            <div className="flex-1 relative min-h-[220px] md:min-h-[180px] my-4 w-full overflow-hidden rounded-2xl border-[0.5px] border-slate-200/60 group/img">
+              <img
+                src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&q=80&w=1000"
+                alt="London Skyline"
                 className="w-full h-full object-cover transition-transform duration-700 group-hover/img:scale-110"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex flex-col justify-end p-5">
@@ -276,12 +267,12 @@ const Explore = () => {
                   </svg>
                   <span className="font-bold text-[10px] uppercase tracking-wider text-gray-400">Best time to book</span>
                 </div>
-                
+
                 <div className="flex items-baseline gap-2 mt-0.5">
                   <span className="text-gray-900 font-black text-2xl tracking-tight leading-none">Today</span>
                 </div>
-                
-                <div 
+
+                <div
                   onClick={() => document.getElementById('search')?.scrollIntoView({ behavior: 'smooth' })}
                   className="text-slate-500 font-medium text-xs flex items-center gap-1 mt-0.5 cursor-pointer hover:text-slate-800 transition-colors w-fit group"
                 >
@@ -294,16 +285,16 @@ const Explore = () => {
         </div>
 
         {/* 2. Scrolling Right Section */}
-        <div className="col-span-2 md:col-span-9 overflow-hidden rounded-3xl relative group-marquee">
-          <div className="flex h-full w-full animate-marquee gap-2 md:gap-3">
+        <div className="col-span-4 md:col-span-9 overflow-hidden rounded-3xl relative group-marquee h-auto md:h-full border border-gray-200/50 md:border-none">
+          <div className="flex h-full w-full animate-marquee gap-3 md:gap-3">
 
             {/* First Set of Cards */}
-            <div className="w-full shrink-0 grid grid-cols-2 md:grid-cols-9 grid-rows-none md:grid-rows-8 gap-2 md:gap-3 grid-flow-dense h-full pb-20 md:pb-0 overflow-y-auto md:overflow-visible scrollbar-hide">
+            <div className="flex shrink-0 gap-3 md:grid md:grid-cols-9 md:grid-rows-8 md:grid-flow-dense h-full pb-10 md:pb-0 w-full md:gap-3">
               <GridCards />
             </div>
 
             {/* Second Set of Cards (for seamless loop) */}
-            <div className="w-full shrink-0 grid grid-cols-2 md:grid-cols-9 grid-rows-none md:grid-rows-8 gap-2 md:gap-3 grid-flow-dense h-full pb-20 md:pb-0 overflow-y-auto md:overflow-visible scrollbar-hide" aria-hidden="true">
+            <div className="flex shrink-0 gap-3 md:grid md:grid-cols-9 md:grid-rows-8 md:grid-flow-dense h-full pb-10 md:pb-0 w-full md:gap-3" aria-hidden="true">
               <GridCards />
             </div>
 

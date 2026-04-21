@@ -113,7 +113,7 @@ const Navbar = ({ isInsideHero }) => {
       }}
     >
       {/* Left: Logo */}
-      <div className="flex-1 flex justify-start">
+      <div className="flex-1 flex justify-start items-center gap-3 md:gap-4">
         <div
           className="flex items-center gap-3 cursor-pointer"
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
@@ -287,6 +287,10 @@ const Navbar = ({ isInsideHero }) => {
 
       {/* Right: CTA */}
       <div className="flex-1 flex justify-end items-center gap-4">
+        {/* Mobile Hamburger */}
+        <button className="lg:hidden p-2 -mr-2 text-slate-900 outline-none">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
         <button
           className="px-6 py-2 rounded-full text-sm font-bold transition-all cursor-pointer whitespace-nowrap bg-[#2563EB] text-white hover:bg-[#1D4ED8]"
           style={{ fontFamily: 'CustomFont' }}

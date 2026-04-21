@@ -218,43 +218,99 @@ section {
 }
 
 @keyframes floatCard1 {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-8px); }
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
 }
 
 @keyframes floatCard2 {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-12px); }
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-12px);
+  }
 }
 
 @keyframes floatCard3 {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-6px); }
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
 }
 
 @keyframes barPulse {
-  from { opacity: 0.3; transform: scaleY(0.6); }
-  to { opacity: 1; transform: scaleY(1); }
+  from {
+    opacity: 0.3;
+    transform: scaleY(0.6);
+  }
+
+  to {
+    opacity: 1;
+    transform: scaleY(1);
+  }
 }
 
 @keyframes progressPulse {
-  0%, 100% { width: 65%; }
-  50% { width: 80%; }
+
+  0%,
+  100% {
+    width: 65%;
+  }
+
+  50% {
+    width: 80%;
+  }
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-20px); }
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-20px);
+  }
 }
 
 @keyframes floatDelayed {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-15px); }
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-15px);
+  }
 }
 
 @keyframes bounceSubtle {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
 }
 
 .animate-float {
@@ -270,8 +326,13 @@ section {
 }
 
 @keyframes loadingBarWidth {
-  0% { transform: scaleX(0); }
-  100% { transform: scaleX(1); }
+  0% {
+    transform: scaleX(0);
+  }
+
+  100% {
+    transform: scaleX(1);
+  }
 }
 
 .animate-loading-bar {
@@ -283,6 +344,7 @@ section {
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -294,6 +356,7 @@ section {
     opacity: 0;
     transform: scale(0.95);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
@@ -305,6 +368,7 @@ section {
     opacity: 0;
     transform: translateY(-20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -324,4 +388,312 @@ section {
 .animate-reveal-scale {
   opacity: 0;
   animation: revealScale 0.7s cubic-bezier(0.2, 1, 0.3, 1) forwards;
+}
+
+/* Mobile Hero Overrides - Zero JS change approach */
+@media (max-width: 768px) {
+  #home {
+    height: auto !important;
+    min-height: calc(100vh - 72px);
+    padding: 1rem !important;
+    background-color: #fff;
+  }
+
+  #home>div {
+    width: 100% !important;
+    height: auto !important;
+    min-height: calc(100vh - 100px);
+    border-radius: 3rem !important;
+    padding: 3rem 1.5rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    border-color: #f1f5f9 !important;
+  }
+
+  #home .z-10 {
+    padding: 0 !important;
+    height: auto !important;
+    width: 100% !important;
+  }
+
+  #home .items-start.text-left {
+    align-items: center !important;
+    text-align: center !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  #home h1 {
+    font-size: 2.85rem !important;
+    line-height: 1.1 !important;
+    margin-bottom: 1.5rem !important;
+    letter-spacing: -0.04em !important;
+  }
+
+  #home h1 br {
+    display: none !important;
+  }
+
+  #home p {
+    font-size: 1.05rem !important;
+    line-height: 1.6 !important;
+    margin-bottom: 2.5rem !important;
+    color: #64748b !important;
+    max-width: 320px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  #home .inline-flex {
+    margin-bottom: 2rem !important;
+  }
+
+  #home button {
+    width: 100% !important;
+    max-width: 260px !important;
+    height: 52px !important;
+    font-size: 0.85rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+
+/* Global Mobile Fix for Zooming Out / Horizontal Overflow */
+@media (max-width: 1024px) {
+
+  html,
+  body {
+    overflow-x: clip !important;
+    width: 100% !important;
+    height: auto !important;
+  }
+
+  #root,
+  main {
+    overflow: visible !important;
+  }
+
+  /* About Section: Force Vertical Stack and Remove Horizontal Width */
+  #about {
+    height: auto !important;
+    min-height: 100vh !important;
+    overflow: hidden !important;
+  }
+
+  /* Target the 500vw slider in About */
+  #about div.flex[style*="width: 500vw"] {
+    width: 100% !important;
+    flex-direction: column !important;
+    height: auto !important;
+    transform: none !important;
+    /* Overrides GSAP horizontal movement */
+  }
+
+  .about-panel {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 100vh !important;
+    flex-shrink: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  /* Explore Section: Fix Marquee Overflow */
+  #explore {
+    height: auto !important;
+    min-height: 100vh !important;
+  }
+
+  #explore .animate-marquee {
+    animation: none !important;
+    flex-direction: column !important;
+    height: auto !important;
+    transform: none !important;
+  }
+
+  #explore .animate-marquee>div {
+    width: 100% !important;
+    height: auto !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* Navbar Mobile Overrides */
+  nav .flex-1.flex.justify-end button:not(.lg\:hidden) {
+    display: none !important;
+  }
+
+  nav.animate-reveal-down {
+    position: sticky !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    z-index: 1000 !important;
+    background-color: white !important;
+    height: 72px !important;
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+  }
+
+  /* Search Section Mobile Overrides */
+  #search {
+    height: auto !important;
+    min-height: auto !important;
+    padding: 2rem 0 !important;
+  }
+
+  #search>div {
+    padding: 0 1rem !important;
+    height: auto !important;
+    min-height: auto !important;
+  }
+
+  #search .search-container {
+    padding: 2.5rem 0.75rem !important;
+    width: 100% !important;
+    border-radius: 2rem !important;
+    margin: 0 !important;
+    left: 0 !important;
+    border-right-width: 1px !important;
+  }
+
+  /* Hide desktop stats panel */
+  #search .search-container>div.absolute.left-16 {
+    display: none !important;
+  }
+
+  #search .ml-auto.max-w-5xl {
+    margin-left: 0 !important;
+    max-width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+
+  #search .search-reveal-item.justify-start {
+    justify-content: center !important;
+    text-align: center !important;
+    width: 100% !important;
+    display: flex !important;
+  }
+
+  /* Trip Type Selector - Wrap or Stack */
+  #search .flex.items-center.gap-8.mb-8 {
+    display: grid !important;
+    grid-template-cols: 1fr 1fr !important;
+    gap: 0.75rem !important;
+    margin-bottom: 1.5rem !important;
+    width: 100% !important;
+  }
+
+  #search .rounded-\[2rem\].p-8 {
+    padding: 1rem !important;
+    border-radius: 1.5rem !important;
+    width: 100% !important;
+    position: relative !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  /* Compact 2-column Grid for Search Inputs - Uniform Boxed Layout */
+  #search .grid-cols-1.md\:grid-cols-5 {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    border-radius: 1rem !important;
+    overflow: hidden !important;
+    border: 1px solid #f1f5f9 !important;
+    /* Full border for consistency */
+    width: 100% !important;
+    position: relative !important;
+  }
+
+  #search .grid-cols-1.md\:grid-cols-5>div {
+    padding: 0.85rem 0.5rem !important;
+    border-right: 1px solid #f1f5f9 !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
+    grid-column: span 1 !important;
+  }
+
+  /* Specific Cell Rounding & Grid Logic */
+  #search .grid-cols-1.md\:grid-cols-5>div:nth-child(2),
+  #search .grid-cols-1.md\:grid-cols-5>div:nth-child(4) {
+    border-right: none !important;
+  }
+
+  /* Bottom Row Logic */
+  #search .grid-cols-1.md\:grid-cols-5>div:nth-child(5) {
+    border-bottom: none !important;
+    position: relative !important;
+  }
+
+  /* Search Box (Empty sibling area for the pseudo-button) */
+  /* This ensures Row 3 Row 2 also has no bottom border if it's the last row */
+  #search .grid-cols-1.md\:grid-cols-5::before {
+    display: none !important;
+    /* Hide old separators */
+  }
+
+  /* Hide pseudo-button to keep the grid area clean */
+  #search .grid-cols-1.md\:grid-cols-5::after {
+    display: none !important;
+    content: none !important;
+  }
+
+  /* Hide original button & redundant elements */
+  #search .absolute.left-1\/2.-bottom-7,
+  #search .grid-cols-1.md\:grid-cols-5::before {
+    display: none !important;
+  }
+
+  /* Typography tweaks and Ellipsis for overflow prevention */
+  #search h3.text-2xl {
+    font-size: 1.05rem !important;
+    line-height: 1.2 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  #search h3.text-2xl span {
+    font-size: 0.8rem !important;
+  }
+
+  #search p.text-\[11px\],
+  #search p.text-slate-500,
+  #search p.text-slate-400 {
+    font-size: 8.5px !important;
+    margin-top: 1px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  /* Dropdown Bottom Sheets */
+  #search .dropdown-transition {
+    width: 100% !important;
+    left: 0 !important;
+    position: fixed !important;
+    top: auto !important;
+    bottom: 0 !important;
+    border-radius: 2rem 2rem 0 0 !important;
+    box-shadow: 0 -10px 25px -5px rgba(0, 0, 0, 0.1) !important;
+    z-index: 2000 !important;
+  }
+
+  /* Fare Types (Regular / Student) - Moved to bottom center */
+  #search .flex.flex-wrap.items-center.gap-4.mt-12 {
+    margin-top: 2rem !important;
+    justify-content: center !important;
+    width: 100% !important;
+    gap: 1.5rem !important;
+    display: flex !important;
+    position: relative !important;
+    right: auto !important;
+    bottom: auto !important;
+  }
 }
