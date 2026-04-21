@@ -221,8 +221,8 @@ const About = () => {
       <div ref={slider} className="flex h-full bg-white" style={{ width: '500vw' }}>
 
         {/* Screen 1: Original Identity */}
-        <section className="about-panel w-screen h-full flex flex-col items-center justify-center text-center bg-white relative overflow-hidden">
-          <div className="w-[85vw] h-[75vh] flex flex-col items-center justify-center rounded-[5rem] border border-slate-200 bg-white mx-auto relative overflow-hidden">
+        <section className="about-panel w-screen h-full flex flex-col items-center justify-center text-center bg-white relative overflow-hidden p-4 md:p-[2.5vw]">
+          <div className="w-full h-full max-w-[1920px] flex flex-col items-center justify-center rounded-[3rem] border border-slate-200 bg-white mx-auto relative overflow-hidden">
             {/* Shutter Reveal Elements */}
             <div className="shutter-l absolute top-0 left-0 w-1/2 h-full bg-white z-20 origin-left border-r border-slate-50"></div>
             <div className="shutter-r absolute top-0 right-0 w-1/2 h-full bg-white z-20 origin-right border-l border-slate-50"></div>
@@ -245,8 +245,9 @@ const About = () => {
         </section>
 
         {/* Screen 2: Editorial/Story */}
-        <section className="about-panel w-screen h-full flex items-center justify-center bg-white">
-          <div className="flex flex-col items-start text-left px-12 max-w-6xl">
+        <section className="about-panel w-screen h-full flex items-center justify-center bg-white p-4 md:p-[2.5vw]">
+          <div className="w-full h-full max-w-[1920px] flex flex-col items-center justify-center rounded-[3rem] border border-slate-200 bg-white mx-auto relative overflow-hidden">
+            <div className="flex flex-col items-start text-left px-12 max-w-4xl">
             <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-10 tracking-tight reveal-item" style={{ fontFamily: 'CustomFont' }}>
               Software that makes you feel great
             </h2>
@@ -271,93 +272,97 @@ const About = () => {
               </div>
             </div>
           </div>
+          </div>
         </section>
 
         {/* Screen 3: Airline Partner Grid */}
-        <section className="about-panel w-screen h-full flex items-center justify-center bg-white">
-          <div className="flex flex-col items-start text-left px-12 max-w-6xl w-full">
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6 tracking-tight reveal-item" style={{ fontFamily: 'CustomFont' }}>
-              Find the best Award flights.
-            </h2>
+        <section className="about-panel w-screen h-full flex items-center justify-center bg-white p-4 md:p-[2.5vw]">
+          <div className="w-full h-full max-w-[1920px] flex flex-col items-center justify-center rounded-[3rem] border border-slate-200 bg-white mx-auto relative overflow-hidden">
+            <div className="flex flex-col items-start text-left px-12 max-w-4xl w-full">
+              <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6 tracking-tight reveal-item" style={{ fontFamily: 'CustomFont' }}>
+                Find the best Award flights.
+              </h2>
 
-            <p className="text-xl text-slate-500 leading-relaxed max-w-4xl mb-10 reveal-item">
-              Search <span className="font-bold text-slate-900">award flights across 25+ airlines and partner programs.</span> Compare
-              mileage costs, availability, and cabin options side-by-side, and quickly find the
-              best way to fly using your points.
-            </p>
+              <p className="text-base text-slate-500 leading-relaxed max-w-2xl mb-10 reveal-item">
+                Search <span className="font-bold text-slate-900">award flights across 25+ airlines and partner programs.</span> Compare
+                mileage costs, availability, and cabin options side-by-side.
+              </p>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 w-full max-w-4xl">
-              {[
-                { name: "Aeromexico", routes: "307 Routes", logo: "/images/logo_aeromexico-01.svg" },
-                { name: "Copa ConnectMiles", routes: "307 Routes", logo: "/images/connect-miles-seeklogo.png" },
-                { name: "Emirates Skywards", routes: "307 Routes", logo: "/images/Emirates_SkyCargo_Logo.svg" },
-                { name: "Finnair Plus", routes: "307 Routes", logo: "/images/ic_finnair_logo-01.svg" },
-                { name: "GOL Smiles", routes: "307 Routes", logo: "/images/gol-linhas-aereas-seeklogo-01.svg" },
-                { name: "Jet Blue", routes: "307 Routes", logo: "/images/jetblue-01.svg" },
-              ].map((item, i) => (
-                <div key={i} className="p-3.5 rounded-xl border border-slate-100 bg-white flex items-center justify-between group hover:border-slate-300 transition-colors reveal-item">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-slate-50 flex items-center justify-center p-1.5">
-                      <img src={item.logo} alt={item.name} className="w-full h-full object-contain" />
-                    </div>
-                    <div>
-                      <h4 className="font-bold text-slate-900 text-[13px] leading-tight">{item.name}</h4>
-                      <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">{item.routes}</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 w-full max-w-3xl">
+                {[
+                  { name: "Aeromexico", routes: "307 Routes", logo: "/images/logo_aeromexico-01.svg" },
+                  { name: "Copa ConnectMiles", routes: "307 Routes", logo: "/images/connect-miles-seeklogo.png" },
+                  { name: "Emirates Skywards", routes: "307 Routes", logo: "/images/Emirates_SkyCargo_Logo.svg" },
+                  { name: "Finnair Plus", routes: "307 Routes", logo: "/images/ic_finnair_logo-01.svg" },
+                  { name: "GOL Smiles", routes: "307 Routes", logo: "/images/gol-linhas-aereas-seeklogo-01.svg" },
+                  { name: "Jet Blue", routes: "307 Routes", logo: "/images/jetblue-01.svg" },
+                ].map((item, i) => (
+                  <div key={i} className="p-3.5 rounded-xl border border-slate-100 bg-white flex items-center justify-between group hover:border-slate-300 transition-colors reveal-item">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-lg bg-slate-50 flex items-center justify-center p-1.5">
+                        <img src={item.logo} alt={item.name} className="w-full h-full object-contain" />
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-slate-900 text-[13px] leading-tight">{item.name}</h4>
+                        <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">{item.routes}</p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </section>
 
         {/* Screen 4: Transfer Partners */}
-        <section className="about-panel w-screen h-full flex items-center justify-center bg-white">
-          <div className="flex flex-col items-start text-left px-12 max-w-6xl">
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-10 tracking-tight reveal-item" style={{ fontFamily: 'CustomFont' }}>
-              Discover Transfer Partners
-            </h2>
+        <section className="about-panel w-screen h-full flex items-center justify-center bg-white p-4 md:p-[2.5vw]">
+          <div className="w-full h-full max-w-[1920px] flex flex-col items-center justify-center rounded-[3rem] border border-slate-200 bg-white mx-auto relative overflow-hidden">
+            <div className="flex flex-col items-start text-left px-12 max-w-4xl w-full">
+              <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-10 tracking-tight reveal-item" style={{ fontFamily: 'CustomFont' }}>
+                Discover Transfer Partners
+              </h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
-              {[
-                { name: "Capital One", logo: "/images/capital-one.svg" },
-                { name: "American Express", logo: "/images/american-express.svg" },
-                { name: "Chase", logo: "/images/chase.svg" },
-                { name: "Citi", logo: "/images/citi.svg" },
-                { name: "Bilt", logo: "/images/bilt.svg" },
-                { name: "Wells Fargo", logo: "/images/wellsfargo.svg" }
-              ].map((item, i) => (
-                <div key={i} className="p-6 rounded-2xl border border-slate-100 bg-white flex items-center justify-center transition-all hover:border-slate-300 reveal-item">
-                  <img src={item.logo} alt={item.name} className="h-6 md:h-8 w-auto object-contain" />
-                </div>
-              ))}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-4xl">
+                {[
+                  { name: "Capital One", logo: "/images/capital-one.svg" },
+                  { name: "American Express", logo: "/images/american-express.svg" },
+                  { name: "Chase", logo: "/images/chase.svg" },
+                  { name: "Citi", logo: "/images/citi.svg" },
+                  { name: "Bilt", logo: "/images/bilt.svg" },
+                  { name: "Wells Fargo", logo: "/images/wellsfargo.svg" }
+                ].map((item, i) => (
+                  <div key={i} className="p-6 rounded-2xl border border-slate-100 bg-white flex items-center justify-center transition-all hover:border-slate-300 reveal-item">
+                    <img src={item.logo} alt={item.name} className="h-6 md:h-8 w-auto object-contain" />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </section>
 
         {/* Screen 5: FAQ Section */}
-        <section className="about-panel w-screen h-full flex items-center justify-center bg-white">
-          <div className="flex flex-col items-start text-left px-12 max-w-5xl w-full">
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-12 tracking-tight reveal-item" style={{ fontFamily: 'CustomFont' }}>
-              Frequently Asked Questions
-            </h2>
+        <section className="about-panel w-screen h-full flex items-center justify-center bg-white p-4 md:p-[2.5vw]">
+          <div className="w-full h-full max-w-[1920px] flex flex-col items-center justify-center rounded-[3rem] border border-slate-200 bg-white mx-auto relative overflow-hidden">
+            <div className="flex flex-col items-start text-left px-12 max-w-4xl w-full">
+              <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-12 tracking-tight reveal-item" style={{ fontFamily: 'CustomFont' }}>
+                F.A.Q
+              </h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-6 w-full">
-              {faqData.map((faq) => (
-                <div key={faq.id} className="reveal-item">
-                  <FAQItem
-                    question={faq.question}
-                    answer={faq.answer}
-                    isOpen={openId === faq.id}
-                    onToggle={() => setOpenId(openId === faq.id ? null : faq.id)}
-                    expandUp={faq.id > 4}
-                  />
-                </div>
-              ))}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 w-full max-w-4xl">
+                {faqData.map((item, i) => (
+                  <div key={item.id} className="reveal-item">
+                    <FAQItem
+                      {...item}
+                      isOpen={openId === item.id}
+                      onToggle={() => setOpenId(openId === item.id ? null : item.id)}
+                      expandUp={i >= 4}
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </section>
-
       </div>
     </div>
   );

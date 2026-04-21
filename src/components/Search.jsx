@@ -150,7 +150,7 @@ const Search = ({ isSearchStarted }) => {
       document.body.style.height = '';
     };
   }, [showFromDropdown, showToDropdown, showDatePicker, showReturnDatePicker, showTravelerDropdown, showFareDropdown]);
-  
+
   useEffect(() => {
     const isDesktop = typeof window !== 'undefined' && window.innerWidth > 768;
     if (isDesktop && (showFromDropdown || showToDropdown || showDatePicker || showReturnDatePicker || showTravelerDropdown || showFareDropdown)) {
@@ -215,12 +215,79 @@ const Search = ({ isSearchStarted }) => {
     <section
       id="search"
       ref={sectionRef}
-      className={`min-h-[calc(100vh-72px)] h-auto md:h-[calc(100vh-72px)] w-full flex items-center justify-center p-3 md:p-4 lg:p-6 transition-colors duration-300 bg-white relative ${(showFromDropdown || showToDropdown || showDatePicker || showReturnDatePicker || showTravelerDropdown || showFareDropdown) ? 'z-[2001]' : 'z-50'}`}
+      className={`min-h-[calc(100vh-72px)] h-auto md:h-[calc(100vh-72px)] w-full transition-colors duration-300 bg-white relative p-4 md:p-[2.5vw] ${(showFromDropdown || showToDropdown || showDatePicker || showReturnDatePicker || showTravelerDropdown || showFareDropdown) ? 'z-[2001]' : 'z-50'}`}
     >
-      <div className="w-full flex items-center justify-center">
-        <div className="search-container w-full max-w-[95%] md:max-w-none mx-auto relative p-6 md:pl-16 md:pr-12 md:py-16 rounded-2xl md:rounded-[3rem] border bg-[#13251a] border-[#1a2e21] opacity-0 md:flex md:items-center md:justify-between md:gap-12">
+      {/* MOBILE VIEW - Purely Centered (Hidden on Desktop) */}
+      <div className="block md:hidden w-full px-5 py-10">
+        <div className="search-container flex flex-col items-center w-full max-w-[450px] mx-auto">
+          {/* Mobile Flights Tag */}
+          <div className="search-reveal-item flex flex-col items-center mb-8 opacity-0">
+            <span className="text-[10px] font-bold bg-gradient-to-r from-emerald-600 to-teal-600 text-white px-3 py-1 rounded-full mb-2 shadow-lg uppercase tracking-tight">
+              Upto 44% Off
+            </span>
+            <button className="flex items-center gap-2 px-8 py-3 rounded-full border border-slate-200/60 transition-all duration-300 font-black text-sm bg-white text-[#13251a]">
+              <Plane size={16} strokeWidth={2.5} />
+              Flights
+            </button>
+          </div>
+
+          {/* Mobile Search Card */}
+          <div className="search-reveal-item w-full bg-white rounded-[2rem] p-5 shadow-[0_8px_40px_rgba(0,0,0,0.08)] border border-slate-100 opacity-0">
+            <div className="flex flex-wrap items-center justify-center gap-4 mb-8">
+              {['One Way', 'Round Trip', 'Multi City'].map((type) => (
+                <label key={type} className="flex items-center gap-2 cursor-pointer">
+                  <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all ${tripType === type ? 'border-[#13251a]' : 'border-slate-300'}`}>
+                    {tripType === type && <div className="w-2.5 h-2.5 rounded-full bg-[#13251a]" />}
+                  </div>
+                  <input type="radio" className="hidden" checked={tripType === type} onChange={() => setTripType(type)} />
+                  <span className={`text-[12px] font-bold ${tripType === type ? 'text-slate-900' : 'text-slate-500'}`}>{type}</span>
+                </label>
+              ))}
+            </div>
+
+            <div className="flex flex-col gap-3">
+              <div ref={fromRef} className="p-4 border rounded-2xl border-slate-100 bg-slate-50/30" onClick={() => setShowFromDropdown(true)}>
+                <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1">Departure From</p>
+                <p className="text-sm font-black text-[#13251a] truncate">{fromLocation.city || 'Select City'}</p>
+              </div>
+              <div ref={toRef} className="p-4 border rounded-2xl border-slate-100 bg-slate-50/30" onClick={() => setShowToDropdown(true)}>
+                <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1">Going To</p>
+                <p className="text-sm font-black text-[#13251a] truncate">{toLocation.city || 'Select City'}</p>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div ref={datePickerRef} className="p-4 border rounded-2xl border-slate-100 bg-slate-50/30" onClick={() => setShowDatePicker(true)}>
+                  <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1">Departure</p>
+                  <p className="text-sm font-black text-[#13251a]">{format(departureDate, 'dd MMM\' yy')}</p>
+                </div>
+                <div ref={returnDatePickerRef} className="p-4 border rounded-2xl border-slate-100 bg-slate-50/30" onClick={() => setShowReturnDatePicker(true)}>
+                  <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1">Return</p>
+                  <p className={`text-sm font-black ${returnDate ? 'text-[#13251a]' : 'text-blue-500'}`}>{returnDate ? format(returnDate, 'dd MMM\' yy') : 'Book Round Trip'}</p>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div ref={travelerRef} className="p-4 border rounded-2xl border-slate-100 bg-slate-50/30" onClick={() => setShowTravelerDropdown(true)}>
+                  <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1">Travellers</p>
+                  <p className="text-sm font-black text-[#13251a] truncate">{adults + children + infants} Total</p>
+                </div>
+                <div ref={fareRef} className="p-4 border rounded-2xl border-slate-100 bg-slate-50/30" onClick={() => setShowFareDropdown(true)}>
+                  <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1">Fare Type</p>
+                  <p className="text-sm font-black text-[#13251a] truncate">{fareType}</p>
+                </div>
+              </div>
+            </div>
+
+            <button className="w-full mt-6 py-4 bg-[#13251a] text-white rounded-2xl font-black text-sm active:scale-95 transition-transform">
+              Search Flights
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* DESKTOP VIEW - Premium Right-Anchored (Hidden on Mobile) */}
+      <div className="hidden md:flex items-center justify-center w-full h-full">
+        <div className="search-container w-full h-full max-w-[1920px] mx-auto relative p-6 md:pl-16 md:pr-12 md:py-16 rounded-[3rem] border bg-[#13251a] border-[#1a2e21] flex items-center justify-between gap-12">
           {/* Animated Left Panel */}
-          <div className="relative z-10 flex flex-col gap-5 w-52 shrink-0">
+          <div className="hidden md:flex relative z-10 flex-col gap-5 w-52 shrink-0">
             {/* Stat Card 1 */}
             <div className="search-reveal-item bg-white/15 backdrop-blur-sm rounded-2xl p-4 border border-white/20 shadow-lg opacity-0">
               <div className="flex items-center gap-3 mb-2">
@@ -271,7 +338,7 @@ const Search = ({ isSearchStarted }) => {
           {/* Inner content wrapper - keeps original size & alignment */}
           <div className="flex-1 max-w-5xl">
             {/* Main Tabs Row - Flights Only */}
-            <div className="search-reveal-item w-full flex items-center justify-center md:justify-end gap-3 mb-6 relative z-20 opacity-0">
+            <div className="search-reveal-item w-full flex items-center justify-center md:justify-start gap-3 mb-6 relative z-20 opacity-0">
               <div className="flex flex-col items-center">
                 <span className="text-[10px] font-bold bg-gradient-to-r from-emerald-600 to-teal-600 text-white px-3 py-1 rounded-full mb-1 shadow-lg uppercase tracking-tight">
                   Upto 44% Off

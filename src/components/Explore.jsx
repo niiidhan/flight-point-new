@@ -179,7 +179,7 @@ const Explore = () => {
     <section
       id="explore"
       ref={sectionRef}
-      className="min-h-[calc(100vh-72px)] h-auto md:h-[calc(100vh-72px)] w-full bg-[#F8FAFC] flex items-center justify-center p-3 md:p-4 lg:p-6 md:overflow-hidden"
+      className="min-h-[calc(100vh-72px)] h-auto md:h-[calc(100vh-72px)] w-full bg-[#F8FAFC] flex items-center justify-center p-4 md:p-[2.5vw] md:overflow-hidden"
     >
       <style>
         {`
@@ -207,17 +207,16 @@ const Explore = () => {
         `}
       </style>
 
-      <div className="w-full h-full max-w-[1600px] grid grid-cols-4 md:grid-cols-12 gap-4 md:gap-3 py-10 md:py-0">
+      <div className="w-full h-full max-w-[1920px] mx-auto grid grid-cols-4 md:grid-cols-12 gap-4 md:gap-3">
 
         {/* 1. Left Column (Dynamic Price Radar) */}
         <div
           ref={leftColRef}
-          className="col-span-4 md:col-span-3 bg-white rounded-3xl relative border border-gray-200 z-10 flex flex-col overflow-hidden group shadow-sm"
+          className="col-span-4 md:col-span-3 bg-white rounded-3xl relative border border-gray-200 z-10 flex flex-col h-full overflow-hidden group shadow-sm"
         >
-          <div className="p-6 md:p-6 flex flex-col h-full">
-
+          <div className="p-6 md:p-6 flex flex-col gap-6 h-full">
             {/* Header */}
-            <div className="flex items-center gap-3 mb-6">
+            <div className="flex items-center gap-3">
               <div className="w-12 h-12 flex items-center justify-center bg-[#F0FDF4] text-[#22C55E] rounded-2xl relative shrink-0 radar-icon">
                 <Radar className="w-6 h-6" strokeWidth={1.5} />
               </div>
@@ -228,7 +227,7 @@ const Explore = () => {
             </div>
 
             {/* Cheapest Route */}
-            <div className="bg-white rounded-xl p-4 border-[0.5px] border-slate-200/60 flex flex-col gap-1 w-full mb-6">
+            <div className="bg-white rounded-xl p-4 border-[0.5px] border-slate-200/60 flex flex-col gap-1 w-full">
               <div className="font-bold text-[10px] uppercase tracking-wider text-gray-400 mb-0.5">Cheapest Today</div>
               <div className="flex items-baseline justify-between mb-1 gap-2">
                 <div className="flex items-center gap-2 font-medium text-[#110B45] text-2xl md:text-[22px] shrink-0">
@@ -245,7 +244,7 @@ const Explore = () => {
             </div>
 
             {/* Destination Image Box */}
-            <div className="flex-1 relative min-h-[220px] md:min-h-[180px] my-4 w-full overflow-hidden rounded-2xl border-[0.5px] border-slate-200/60 group/img">
+            <div className="relative w-full overflow-hidden rounded-2xl border-[0.5px] border-slate-200/60 group/img flex-1 min-h-[120px]">
               <img
                 src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&q=80&w=1000"
                 alt="London Skyline"
@@ -259,7 +258,7 @@ const Explore = () => {
               </div>
             </div>
 
-            <div className="mt-auto">
+            <div>
               <div className="bg-white rounded-xl p-3.5 border-[0.5px] border-slate-200/60 flex flex-col justify-center gap-1 w-full">
                 <div className="flex items-center gap-1.5">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400 w-3.5 h-3.5">
