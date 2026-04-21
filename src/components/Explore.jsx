@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useLayoutEffect, useRef } from 'react';
 import {
   Plane, Star, CreditCard, ArrowUpDown, Building, RefreshCw,
   Zap, Bell, ChartBar, Car, Utensils, Wifi, Award, Shield,
   Ticket, Luggage, Headphones, ClipboardCheck, CalendarRange, Clock, LayoutGrid, PackagePlus, Wallet,
   Radar, TrendingDown, ArrowRight
 } from 'lucide-react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const GridCards = () => (
   <>
@@ -148,8 +152,44 @@ const GridCards = () => (
 );
 
 const Explore = () => {
+  const sectionRef = useRef(null);
+  const leftColRef = useRef(null);
+
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      // Intro animation for the left column
+      gsap.from(leftColRef.current, {
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 85%",
+          toggleActions: "play none none none"
+        },
+        x: -40,
+        opacity: 0,
+        duration: 1,
+        ease: "power4.out",
+        clearProps: "all"
+      });
+
+      // Subtle pulse for the header icon
+      gsap.to(".radar-icon", {
+        scale: 1.1,
+        duration: 2,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut"
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section id="explore" className="h-[calc(100vh-72px)] w-full bg-[#F8FAFC] flex items-center justify-center p-2 md:p-4 lg:p-6 overflow-hidden">
+    <section 
+      id="explore" 
+      ref={sectionRef}
+      className="h-[calc(100vh-72px)] w-full bg-[#F8FAFC] flex items-center justify-center p-2 md:p-4 lg:p-6 overflow-hidden"
+    >
       <style>
         {`
           @keyframes marquee {
@@ -179,12 +219,15 @@ const Explore = () => {
       <div className="w-full h-full max-w-[1600px] grid grid-cols-4 md:grid-cols-12 gap-2 md:gap-3 overflow-hidden pb-20 md:pb-0">
 
         {/* 1. Left Column (Dynamic Price Radar) */}
-        <div className="col-span-2 md:col-span-3 bg-white rounded-3xl relative border border-gray-200 z-10 flex flex-col overflow-hidden group transition-all duration-700">
+        <div 
+          ref={leftColRef}
+          className="col-span-2 md:col-span-3 bg-white rounded-3xl relative border border-gray-200 z-10 flex flex-col overflow-hidden group"
+        >
           <div className="p-5 md:p-6 flex flex-col h-full">
             
             {/* Header */}
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 flex items-center justify-center bg-[#F0FDF4] text-[#22C55E] rounded-2xl relative shrink-0">
+              <div className="w-12 h-12 flex items-center justify-center bg-[#F0FDF4] text-[#22C55E] rounded-2xl relative shrink-0 radar-icon">
                 <Radar className="w-6 h-6" strokeWidth={1.5} />
               </div>
               <div className="flex flex-col">

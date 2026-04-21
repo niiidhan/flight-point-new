@@ -132,11 +132,11 @@ const Search = ({ isSearchStarted }) => {
   // Smart auto-scroll: Only scrolls if the dropdown would be cut off by the screen edge
   useEffect(() => {
     if (showFromDropdown || showToDropdown || showDatePicker || showReturnDatePicker || showTravelerDropdown) {
-      const activeRef = showFromDropdown ? fromRef : 
-                        showToDropdown ? toRef : 
-                        showDatePicker ? datePickerRef : 
-                        showReturnDatePicker ? returnDatePickerRef : 
-                        travelerRef;
+      const activeRef = showFromDropdown ? fromRef :
+        showToDropdown ? toRef :
+          showDatePicker ? datePickerRef :
+            showReturnDatePicker ? returnDatePickerRef :
+              travelerRef;
 
       if (activeRef.current) {
         // Small delay to ensure the dropdown is rendered
@@ -164,17 +164,17 @@ const Search = ({ isSearchStarted }) => {
   useLayoutEffect(() => {
     if (isVisible) {
       const tl = gsap.timeline();
-      
+
       // 1. Blue container slides in from right
-      tl.fromTo(".search-container", 
+      tl.fromTo(".search-container",
         { x: 100, opacity: 0 },
         { x: 0, opacity: 1, duration: 0.8, ease: "expo.out", force3D: true }
       );
-      
+
       // 2. Reveal contents
       const revealItems = sectionRef.current.querySelectorAll(".search-reveal-item");
       if (revealItems.length) {
-        tl.fromTo(revealItems, 
+        tl.fromTo(revealItems,
           { y: 40, opacity: 0, scale: 0.98 },
           { y: 0, opacity: 1, scale: 1, duration: 0.7, stagger: 0.05, ease: "expo.out", force3D: true },
           "-=0.5"
@@ -276,27 +276,26 @@ const Search = ({ isSearchStarted }) => {
                   <button onClick={(e) => { e.stopPropagation(); handleSwap(); }} className="absolute right-[-14px] top-1/2 -translate-y-1/2 z-20 p-1.5 rounded-full shadow-sm hidden md:flex items-center justify-center transition-all bg-white border border-slate-200 text-[#13251a]">
                     <ArrowLeftRight size={14} />
                   </button>
-                  {showFromDropdown && (
-                    <div className="absolute top-full left-[-1px] w-[350px] rounded-b-xl z-[999] border overflow-hidden animate-dropdown-open bg-white border-slate-200" onClick={(e) => e.stopPropagation()}>
-                      <div className="p-3 border-b border-white/5">
-                        <div className="flex items-center gap-2 border rounded-lg px-4 py-1.5 bg-slate-50 border-slate-200">
-                          <SearchIcon size={14} className="text-slate-400" />
-                          <input autoFocus type="text" placeholder="From where?" className="bg-transparent border-none outline-none text-xs w-full font-bold placeholder:text-slate-500 text-slate-800" value={fromSearch} onChange={(e) => setFromSearch(e.target.value)} onKeyDown={handleKeyDownFrom} />
-                        </div>
-                      </div>
-                      <div className="max-h-[265px] overflow-y-auto py-1 scrollbar-hide">
-                        {filteredFromAirports.map((airport, idx) => (
-                          <div key={idx} className={`px-4 py-2 cursor-pointer flex items-center justify-between group transition-colors ${selectedIndexFrom === idx ? 'bg-slate-100' : 'hover:bg-slate-50'}`} onClick={() => { setFromLocation(airport); setShowFromDropdown(false); setFromSearch(''); }}>
-                            <div className="flex flex-col">
-                              <span className="text-sm font-bold text-slate-800">{airport.city}</span>
-                              <span className="text-[10px] text-slate-500">{airport.airport}</span>
-                            </div>
-                            <span className={`text-sm font-black ${selectedIndexFrom === idx ? 'text-[#2563EB]' : 'text-slate-400'}`}>{airport.code}</span>
-                          </div>
-                        ))}
+                  
+                  <div className={`absolute top-full left-[-1px] w-[350px] rounded-b-xl z-[999] border overflow-hidden bg-white border-slate-200 dropdown-transition ${showFromDropdown ? 'show' : ''}`} onClick={(e) => e.stopPropagation()}>
+                    <div className="p-3 border-b border-white/5">
+                      <div className="flex items-center gap-2 border rounded-lg px-4 py-1.5 bg-slate-50 border-slate-200">
+                        <SearchIcon size={14} className="text-slate-400" />
+                        <input autoFocus={showFromDropdown} type="text" placeholder="From where?" className="bg-transparent border-none outline-none text-xs w-full font-bold placeholder:text-slate-500 text-slate-800" value={fromSearch} onChange={(e) => setFromSearch(e.target.value)} onKeyDown={handleKeyDownFrom} />
                       </div>
                     </div>
-                  )}
+                    <div className="max-h-[265px] overflow-y-auto py-1 scrollbar-hide">
+                      {filteredFromAirports.map((airport, idx) => (
+                        <div key={idx} className={`px-4 py-2 cursor-pointer flex items-center justify-between group transition-colors ${selectedIndexFrom === idx ? 'bg-slate-100' : 'hover:bg-slate-50'}`} onClick={() => { setFromLocation(airport); setShowFromDropdown(false); setFromSearch(''); }}>
+                          <div className="flex flex-col">
+                            <span className="text-sm font-bold text-slate-800">{airport.city}</span>
+                            <span className="text-[10px] text-slate-500">{airport.airport}</span>
+                          </div>
+                          <span className={`text-sm font-black ${selectedIndexFrom === idx ? 'text-[#2563EB]' : 'text-slate-400'}`}>{airport.code}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
 
                 {/* Going To */}
@@ -304,27 +303,26 @@ const Search = ({ isSearchStarted }) => {
                   <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Going To</p>
                   <h3 className="text-2xl font-black text-slate-800">{toLocation.city}</h3>
                   <p className="text-[11px] text-slate-500 truncate mt-1">{toLocation.code}, {toLocation.airport}</p>
-                  {showToDropdown && (
-                    <div className="absolute top-full left-[-1px] w-[350px] rounded-b-xl z-[999] border overflow-hidden animate-dropdown-open bg-white border-slate-200" onClick={(e) => e.stopPropagation()}>
-                      <div className="p-3 border-b border-white/5">
-                        <div className="flex items-center gap-2 border rounded-lg px-4 py-1.5 bg-slate-50 border-slate-200">
-                          <SearchIcon size={14} className="text-slate-400" />
-                          <input autoFocus type="text" placeholder="To where?" className="bg-transparent border-none outline-none text-xs w-full font-bold placeholder:text-slate-500 text-slate-800" value={toSearch} onChange={(e) => setToSearch(e.target.value)} onKeyDown={handleKeyDownTo} />
-                        </div>
-                      </div>
-                      <div className="max-h-[265px] overflow-y-auto py-1 scrollbar-hide">
-                        {filteredToAirports.map((airport, idx) => (
-                          <div key={idx} className={`px-4 py-2 cursor-pointer flex items-center justify-between group transition-colors ${selectedIndexTo === idx ? 'bg-slate-100' : 'hover:bg-slate-50'}`} onClick={() => { setToLocation(airport); setShowToDropdown(false); setToSearch(''); }}>
-                            <div className="flex flex-col">
-                              <span className="text-sm font-bold text-slate-800">{airport.city}</span>
-                              <span className="text-[10px] text-slate-500">{airport.airport}</span>
-                            </div>
-                            <span className={`text-sm font-black ${selectedIndexTo === idx ? 'text-[#2563EB]' : 'text-slate-400'}`}>{airport.code}</span>
-                          </div>
-                        ))}
+                  
+                  <div className={`absolute top-full left-[-1px] w-[350px] rounded-b-xl z-[999] border overflow-hidden bg-white border-slate-200 dropdown-transition ${showToDropdown ? 'show' : ''}`} onClick={(e) => e.stopPropagation()}>
+                    <div className="p-3 border-b border-white/5">
+                      <div className="flex items-center gap-2 border rounded-lg px-4 py-1.5 bg-slate-50 border-slate-200">
+                        <SearchIcon size={14} className="text-slate-400" />
+                        <input autoFocus={showToDropdown} type="text" placeholder="To where?" className="bg-transparent border-none outline-none text-xs w-full font-bold placeholder:text-slate-500 text-slate-800" value={toSearch} onChange={(e) => setToSearch(e.target.value)} onKeyDown={handleKeyDownTo} />
                       </div>
                     </div>
-                  )}
+                    <div className="max-h-[265px] overflow-y-auto py-1 scrollbar-hide">
+                      {filteredToAirports.map((airport, idx) => (
+                        <div key={idx} className={`px-4 py-2 cursor-pointer flex items-center justify-between group transition-colors ${selectedIndexTo === idx ? 'bg-slate-100' : 'hover:bg-slate-50'}`} onClick={() => { setToLocation(airport); setShowToDropdown(false); setToSearch(''); }}>
+                          <div className="flex flex-col">
+                            <span className="text-sm font-bold text-slate-800">{airport.city}</span>
+                            <span className="text-[10px] text-slate-500">{airport.airport}</span>
+                          </div>
+                          <span className={`text-sm font-black ${selectedIndexTo === idx ? 'text-[#2563EB]' : 'text-slate-400'}`}>{airport.code}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
 
                 {/* Departure Date */}
@@ -335,11 +333,10 @@ const Search = ({ isSearchStarted }) => {
                   </div>
                   <h3 className="text-2xl font-black text-slate-800">{format(departureDate, 'd')} <span className="text-lg font-bold">{format(departureDate, "MMM'' yy")}</span></h3>
                   <p className="text-[11px] text-slate-500 mt-1">{format(departureDate, 'EEEE')}</p>
-                  {showDatePicker && (
-                    <div className="absolute top-full left-[-1px] z-[999] bg-white border border-slate-200 rounded-b-xl p-2" onClick={(e) => e.stopPropagation()}>
-                      <DatePicker selected={departureDate} onChange={(date) => { setDepartureDate(date); setShowDatePicker(false); }} inline minDate={new Date()} />
-                    </div>
-                  )}
+                  
+                  <div className={`absolute top-full left-[-1px] z-[999] bg-white border border-slate-200 rounded-b-xl p-2 dropdown-transition ${showDatePicker ? 'show' : ''}`} onClick={(e) => e.stopPropagation()}>
+                    <DatePicker selected={departureDate} onChange={(date) => { setDepartureDate(date); setShowDatePicker(false); }} inline minDate={new Date()} />
+                  </div>
                 </div>
 
                 {/* Return Date */}
@@ -356,11 +353,10 @@ const Search = ({ isSearchStarted }) => {
                   ) : (
                     <h3 className="text-sm font-bold text-[#2563EB] leading-tight mt-2">Book Round Trip<br /><span className="text-[11px] font-medium text-slate-400">to save extra</span></h3>
                   )}
-                  {showReturnDatePicker && (
-                    <div className="absolute top-full left-[-1px] z-[999] bg-white border border-slate-200 rounded-b-xl p-2" onClick={(e) => e.stopPropagation()}>
-                      <DatePicker selected={returnDate} onChange={(date) => { setReturnDate(date); setShowReturnDatePicker(false); setTripType('Round Trip'); }} inline minDate={departureDate} />
-                    </div>
-                  )}
+                  
+                  <div className={`absolute top-full left-[-1px] z-[999] bg-white border border-slate-200 rounded-b-xl p-2 dropdown-transition ${showReturnDatePicker ? 'show' : ''}`} onClick={(e) => e.stopPropagation()}>
+                    <DatePicker selected={returnDate} onChange={(date) => { setReturnDate(date); setShowReturnDatePicker(false); setTripType('Round Trip'); }} inline minDate={departureDate} />
+                  </div>
                 </div>
 
                 {/* Travelers */}
@@ -371,35 +367,34 @@ const Search = ({ isSearchStarted }) => {
                   </div>
                   <h3 className="text-2xl font-black text-slate-800">{adults + children} <span className="text-lg font-bold">Total</span></h3>
                   <p className="text-[11px] text-slate-500 mt-1">{cabinClass}</p>
-                  {showTravelerDropdown && (
-                    <div className="absolute top-full right-[-1px] w-[300px] z-[999] border rounded-b-xl p-5 animate-dropdown-open bg-white border-slate-200" onClick={(e) => e.stopPropagation()}>
-                      <div className="flex items-center justify-between mb-4">
-                        <div><p className="text-sm font-bold text-slate-800">Adults</p><p className="text-[10px] text-slate-500">18+</p></div>
-                        <div className="flex items-center gap-3">
-                          <button onClick={() => setAdults(Math.max(1, adults - 1))} className="w-7 h-7 rounded-full border border-slate-300 flex items-center justify-center text-slate-500">-</button>
-                          <span className="text-sm font-bold text-slate-800">{adults}</span>
-                          <button onClick={() => setAdults(adults + 1)} className="w-7 h-7 rounded-full border border-slate-300 flex items-center justify-center text-slate-500">+</button>
-                        </div>
+                  
+                  <div className={`absolute top-full right-[-1px] w-[300px] z-[999] border rounded-b-xl p-5 bg-white border-slate-200 dropdown-transition ${showTravelerDropdown ? 'show' : ''}`} onClick={(e) => e.stopPropagation()}>
+                    <div className="flex items-center justify-between mb-4">
+                      <div><p className="text-sm font-bold text-slate-800">Adults</p><p className="text-[10px] text-slate-500">18+</p></div>
+                      <div className="flex items-center gap-3">
+                        <button onClick={() => setAdults(Math.max(1, adults - 1))} className="w-7 h-7 rounded-full border border-slate-300 flex items-center justify-center text-slate-500">-</button>
+                        <span className="text-sm font-bold text-slate-800">{adults}</span>
+                        <button onClick={() => setAdults(adults + 1)} className="w-7 h-7 rounded-full border border-slate-300 flex items-center justify-center text-slate-500">+</button>
                       </div>
-                      <div className="flex items-center justify-between mb-6">
-                        <div><p className="text-sm font-bold text-slate-800">Children</p><p className="text-[10px] text-slate-500">0-17</p></div>
-                        <div className="flex items-center gap-3">
-                          <button onClick={() => setChildren(Math.max(0, children - 1))} className="w-7 h-7 rounded-full border border-slate-300 flex items-center justify-center text-slate-500">-</button>
-                          <span className="text-sm font-bold text-slate-800">{children}</span>
-                          <button onClick={() => setChildren(children + 1)} className="w-7 h-7 rounded-full border border-slate-300 flex items-center justify-center text-slate-500">+</button>
-                        </div>
-                      </div>
-                      <div className="mb-6">
-                        <p className="text-[10px] font-bold text-slate-400 uppercase mb-2">Class</p>
-                        <div className="flex flex-wrap gap-2">
-                          {['Economy', 'Business'].map(cls => (
-                            <button key={cls} onClick={() => setCabinClass(cls)} className={`px-3 py-1 rounded-full text-[10px] font-bold border transition-all ${cabinClass === cls ? 'bg-[#2563EB] border-[#2563EB] text-white' : 'border-slate-200 text-slate-500'}`}>{cls}</button>
-                          ))}
-                        </div>
-                      </div>
-                      <button onClick={() => setShowTravelerDropdown(false)} className="w-full py-2 bg-[#2563EB] text-white rounded-lg text-xs font-bold">Done</button>
                     </div>
-                  )}
+                    <div className="flex items-center justify-between mb-6">
+                      <div><p className="text-sm font-bold text-slate-800">Children</p><p className="text-[10px] text-slate-500">0-17</p></div>
+                      <div className="flex items-center gap-3">
+                        <button onClick={() => setChildren(Math.max(0, children - 1))} className="w-7 h-7 rounded-full border border-slate-300 flex items-center justify-center text-slate-500">-</button>
+                        <span className="text-sm font-bold text-slate-800">{children}</span>
+                        <button onClick={() => setChildren(children + 1)} className="w-7 h-7 rounded-full border border-slate-300 flex items-center justify-center text-slate-500">+</button>
+                      </div>
+                    </div>
+                    <div className="mb-6">
+                      <p className="text-[10px] font-bold text-slate-400 uppercase mb-2">Class</p>
+                      <div className="flex flex-wrap gap-2">
+                        {['Economy', 'Business'].map(cls => (
+                          <button key={cls} onClick={() => setCabinClass(cls)} className={`px-3 py-1 rounded-full text-[10px] font-bold border transition-all ${cabinClass === cls ? 'bg-[#2563EB] border-[#2563EB] text-white' : 'border-slate-200 text-slate-500'}`}>{cls}</button>
+                        ))}
+                      </div>
+                    </div>
+                    <button onClick={() => setShowTravelerDropdown(false)} className="w-full py-2 bg-[#2563EB] text-white rounded-lg text-xs font-bold">Done</button>
+                  </div>
                 </div>
 
               </div>

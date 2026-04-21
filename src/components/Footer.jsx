@@ -58,13 +58,13 @@ const Footer = () => {
           <div className="lg:pl-8">
             <h4 className="font-bold text-lg mb-4 tracking-tight text-white">Stay Updated</h4>
             <p className="text-sm text-white/40 mb-6 font-medium">Get the latest award seat alerts and travel tips.</p>
-            <div className="relative">
+            <div className="flex flex-col gap-4 group/input items-start">
               <input
                 type="email"
                 placeholder="Email address"
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5 transition-all font-medium text-white placeholder:text-white/20"
+                className="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-sm focus:outline-none focus:border-blue-500/50 focus:bg-white/[0.08] transition-all font-medium text-white placeholder:text-white/20"
               />
-              <button className="absolute right-2 top-1.5 bottom-1.5 bg-blue-600 text-white px-4 rounded-lg text-xs font-bold hover:bg-blue-700 transition-all shadow-lg shadow-blue-500/20">
+              <button className="bg-white text-black px-8 py-3 rounded-xl text-xs font-bold hover:bg-white/90 hover:scale-[1.05] active:scale-[0.95] transition-all uppercase tracking-widest shadow-lg shadow-white/5">
                 Join
               </button>
             </div>
@@ -97,11 +97,17 @@ const Footer = () => {
             <div className="flex items-center gap-6">
               <span className="text-[11px] text-white/30 font-bold uppercase tracking-[0.3em] font-['Inter']">Follow Us</span>
               <div className="flex items-center gap-3">
-                <a href="#" className="size-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition-all border border-white/10 text-white">
-                  <Globe className="size-5" />
+                <a href="#" className="size-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition-all border border-white/10 text-white group">
+                  <svg viewBox="0 0 24 24" className="size-5 fill-current" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/>
+                  </svg>
                 </a>
-                <a href="#" className="size-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition-all border border-white/10 text-white">
-                  <Navigation className="size-5" />
+                <a href="#" className="size-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition-all border border-white/10 text-white group">
+                  <svg viewBox="0 0 24 24" className="size-5 fill-none stroke-current" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                  </svg>
                 </a>
               </div>
             </div>

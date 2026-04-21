@@ -180,7 +180,14 @@ const Navbar = ({ isInsideHero }) => {
                       <p className="text-[9px] font-semibold uppercase tracking-[0.2em] mb-4 text-slate-400">Navigation</p>
                       <div className="grid grid-cols-1 gap-0.5">
                         {searchData.monitor.map((item, idx) => (
-                          <div key={idx} onClick={() => setActiveDropdown(null)} className="flex items-start gap-3 p-2 rounded-lg transition-all group cursor-pointer border-b border-slate-50 hover:bg-slate-50 last:border-b-0">
+                          <div 
+                            key={idx} 
+                            onClick={(e) => {
+                              setActiveDropdown(null);
+                              scrollToSection(e, '#search');
+                            }} 
+                            className="flex items-start gap-3 p-2 rounded-lg transition-all group cursor-pointer border-b border-slate-50 hover:bg-slate-50 last:border-b-0"
+                          >
                             <div className="mt-0.5 transition-colors text-slate-400 group-hover:text-blue-600">
                               <item.icon size={16} strokeWidth={1.5} />
                             </div>
@@ -194,10 +201,22 @@ const Navbar = ({ isInsideHero }) => {
                     </div>
                     <div className="col-span-2">
                       <p className="text-[9px] font-semibold uppercase tracking-[0.2em] mb-4 text-slate-400">Featured</p>
-                      <div className="rounded-lg overflow-hidden border border-slate-100 mb-4 group cursor-pointer aspect-[16/9]">
+                      <div 
+                        onClick={(e) => {
+                          setActiveDropdown(null);
+                          scrollToSection(e, '#search');
+                        }}
+                        className="rounded-lg overflow-hidden border border-slate-100 mb-4 group cursor-pointer aspect-[16/9]"
+                      >
                         <img src="https://images.pexels.com/photos/2166553/pexels-photo-2166553.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Search" className="w-full h-full object-cover grayscale-[0.2] transition-all duration-700 group-hover:grayscale-0 group-hover:scale-105" />
                       </div>
-                      <div onClick={() => setActiveDropdown(null)} className="flex items-start gap-3 p-2 rounded-lg transition-all group cursor-pointer hover:bg-slate-50">
+                      <div 
+                        onClick={(e) => {
+                          setActiveDropdown(null);
+                          scrollToSection(e, '#search');
+                        }} 
+                        className="flex items-start gap-3 p-2 rounded-lg transition-all group cursor-pointer hover:bg-slate-50"
+                      >
                         <div className="mt-0.5 transition-colors text-slate-400 group-hover:text-blue-600">
                           <searchData.create.icon size={16} strokeWidth={1.5} />
                         </div>

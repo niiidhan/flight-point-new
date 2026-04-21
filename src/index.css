@@ -77,6 +77,22 @@ html {
   animation: fluidExpand 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
+.dropdown-transition {
+  opacity: 0;
+  visibility: hidden;
+  transform: scaleY(0.9) translateY(-10px);
+  transform-origin: top;
+  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+
+.dropdown-transition.show {
+  opacity: 1;
+  visibility: visible;
+  transform: scaleY(1) translateY(0);
+  pointer-events: auto;
+}
+
 body {
   margin: 0;
   min-width: 320px;
