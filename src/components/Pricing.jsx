@@ -32,7 +32,7 @@ export default function Pricing() {
             <div className="mx-auto max-w-4xl px-6">
                 <div className="mx-auto max-w-2xl space-y-3 text-center mb-12 pricing-animate">
                     <h1 className="text-center text-3xl font-black lg:text-4xl tracking-tighter text-slate-900">
-                        Pricing that Scales with You
+                        Pricing that Scales <br className="md:hidden" /> with You
                     </h1>
                     <p className="text-slate-500 font-medium text-sm">
                         Choose the plan that fits your travel style.
@@ -96,7 +96,7 @@ export default function Pricing() {
                                 >
                                     <a href="#">Get Started</a>
                                 </Button>
-                                
+
                                 <div className="mt-auto pt-5 border-t border-slate-100 italic text-[9px] text-slate-400 leading-relaxed">
                                     Flightpoints is independent. Award data refreshed continuously.
                                 </div>

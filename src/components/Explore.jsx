@@ -284,16 +284,16 @@ const Explore = () => {
         </div>
 
         {/* 2. Scrolling Right Section */}
-        <div className="col-span-4 md:col-span-9 overflow-hidden rounded-3xl relative group-marquee h-auto md:h-full border border-gray-200/50 md:border-none">
-          <div className="flex h-full w-full animate-marquee gap-3 md:gap-3">
+        <div className="hidden md:block col-span-9 overflow-hidden rounded-3xl relative group-marquee h-full border-none">
+          <div className="flex h-full w-full animate-marquee gap-3">
 
             {/* First Set of Cards */}
-            <div className="flex shrink-0 gap-3 md:grid md:grid-cols-9 md:grid-rows-8 md:grid-flow-dense h-full pb-10 md:pb-0 w-full md:gap-3">
+            <div className="flex shrink-0 gap-3 md:grid md:grid-cols-9 md:grid-rows-8 md:grid-flow-dense h-full pb-0 w-full md:gap-3">
               <GridCards />
             </div>
 
             {/* Second Set of Cards (for seamless loop) */}
-            <div className="flex shrink-0 gap-3 md:grid md:grid-cols-9 md:grid-rows-8 md:grid-flow-dense h-full pb-10 md:pb-0 w-full md:gap-3" aria-hidden="true">
+            <div className="flex shrink-0 gap-3 md:grid md:grid-cols-9 md:grid-rows-8 md:grid-flow-dense h-full pb-0 w-full md:gap-3" aria-hidden="true">
               <GridCards />
             </div>
 

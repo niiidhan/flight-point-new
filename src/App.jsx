@@ -9,6 +9,7 @@ import About from './components/About';
 import Pricing from './components/Pricing';
 import Footer from './components/Footer';
 import LoadingScreen from './components/LoadingScreen';
+import MobileAppPopup from './components/MobileAppPopup';
 
 function App() {
   const [isLoading, setIsLoading] = useState(() => {
@@ -39,15 +40,21 @@ function App() {
 
   return (
     <main className="min-h-screen">
-      {isLoading && <LoadingScreen />}
-      <AnnouncementBar />
-      <Navbar isInsideHero={false} />
-      <Hero isSearchStarted={isSearchStarted} setIsSearchStarted={setIsSearchStarted} />
-      <Search isSearchStarted={isSearchStarted} />
-      <Explore />
-      <Pricing />
-      <About />
-      <Footer />
+      {isLoading ? (
+        <LoadingScreen />
+      ) : (
+        <>
+          <AnnouncementBar />
+          <Navbar isInsideHero={false} />
+          <Hero isSearchStarted={isSearchStarted} setIsSearchStarted={setIsSearchStarted} />
+          <Search isSearchStarted={isSearchStarted} />
+          <Explore />
+          <Pricing />
+          <About />
+          <Footer />
+          <MobileAppPopup />
+        </>
+      )}
     </main>
   );
 }

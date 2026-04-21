@@ -110,7 +110,9 @@ const About = () => {
   }, []);
 
   useLayoutEffect(() => {
-    let ctx = gsap.context(() => {
+    let mm = gsap.matchMedia();
+
+    mm.add("(min-width: 1024px)", () => {
       const panels = gsap.utils.toArray(".about-panel");
 
       const scrollTween = gsap.to(panels, {
@@ -135,7 +137,7 @@ const About = () => {
             // Screen 1: Premium Shutter Reveal + Intro Animation
             const shutterL = panel.querySelector('.shutter-l');
             const shutterR = panel.querySelector('.shutter-r');
-            
+
             const tl = gsap.timeline({
               scrollTrigger: {
                 trigger: component.current,
@@ -150,13 +152,13 @@ const About = () => {
               ease: "expo.inOut",
               stagger: 0.05
             })
-            .from(revealItems, {
-              y: 40,
-              opacity: 0,
-              duration: 0.8,
-              stagger: 0.15,
-              ease: "power4.out"
-            }, "-=0.8");
+              .from(revealItems, {
+                y: 40,
+                opacity: 0,
+                duration: 0.8,
+                stagger: 0.15,
+                ease: "power4.out"
+              }, "-=0.8");
           } else {
             // Subsequent screens: Tied to horizontal scroll progress
             gsap.from(revealItems, {
@@ -178,9 +180,9 @@ const About = () => {
           }
         }
       });
-    }, component);
+    });
 
-    return () => ctx.revert();
+    return () => mm.revert();
   }, []);
 
   const faqData = [
@@ -217,25 +219,25 @@ const About = () => {
   ];
 
   return (
-    <div ref={component} id="about" className="overflow-hidden bg-white w-full h-[calc(100vh-72px)] relative">
-      <div ref={slider} className="flex h-full bg-white" style={{ width: '500vw' }}>
+    <div ref={component} id="about" className="overflow-y-auto lg:overflow-hidden bg-white w-full h-auto lg:h-[calc(100vh-72px)] relative">
+      <div ref={slider} className="flex flex-col lg:flex-row lg:h-full bg-white w-full lg:w-[500vw]">
 
         {/* Screen 1: Original Identity */}
-        <section className="about-panel w-screen h-full flex flex-col items-center justify-center text-center bg-white relative overflow-hidden p-4 md:p-[2.5vw]">
-          <div className="w-full h-full max-w-[1920px] flex flex-col items-center justify-center rounded-[3rem] border border-slate-200 bg-white mx-auto relative overflow-hidden">
+        <section className="about-panel w-full h-auto min-h-[50vh] lg:w-screen lg:h-full flex flex-col items-center justify-center text-center bg-white relative overflow-hidden p-4 lg:p-[2.5vw]">
+          <div className="w-full h-auto py-12 lg:py-0 lg:h-full max-w-[1920px] flex flex-col items-center justify-center lg:rounded-[3rem] lg:border lg:border-slate-200 lg:bg-white mx-auto relative overflow-hidden">
             {/* Shutter Reveal Elements */}
-            <div className="shutter-l absolute top-0 left-0 w-1/2 h-full bg-white z-20 origin-left border-r border-slate-50"></div>
-            <div className="shutter-r absolute top-0 right-0 w-1/2 h-full bg-white z-20 origin-right border-l border-slate-50"></div>
-            
-            <div className="mb-12 reveal-item">
+            <div className="shutter-l hidden lg:block absolute top-0 left-0 w-1/2 h-full bg-white z-20 origin-left border-r border-slate-50"></div>
+            <div className="shutter-r hidden lg:block absolute top-0 right-0 w-1/2 h-full bg-white z-20 origin-right border-l border-slate-50"></div>
+
+            <div className="mb-8 lg:mb-12 reveal-item">
               <img
                 src="/images/LOGO.svg"
                 alt="Logo Icon"
-                className="h-16 md:h-16 w-auto invert"
+                className="h-12 lg:h-16 w-auto invert"
               />
             </div>
             <h1
-              className="text-5xl md:text-5xl font-medium text-slate-900 tracking-tighter leading-tight reveal-item"
+              className="text-4xl lg:text-5xl font-medium text-slate-900 tracking-tighter leading-tight reveal-item text-center w-full"
               style={{ fontFamily: 'CustomFont' }}
             >
               Why we build <br />
@@ -245,45 +247,45 @@ const About = () => {
         </section>
 
         {/* Screen 2: Editorial/Story */}
-        <section className="about-panel w-screen h-full flex items-center justify-center bg-white p-4 md:p-[2.5vw]">
-          <div className="w-full h-full max-w-[1920px] flex flex-col items-center justify-center rounded-[3rem] border border-slate-200 bg-white mx-auto relative overflow-hidden">
-            <div className="flex flex-col items-start text-left px-12 max-w-4xl">
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-10 tracking-tight reveal-item" style={{ fontFamily: 'CustomFont' }}>
-              Software that makes you feel great
-            </h2>
+        <section className="about-panel w-full h-auto min-h-[50vh] lg:w-screen lg:h-full flex items-center justify-center bg-white p-4 lg:p-[2.5vw]">
+          <div className="w-full h-auto py-12 lg:py-0 lg:h-full max-w-[1920px] flex flex-col items-center justify-center lg:rounded-[3rem] lg:border lg:border-slate-200 lg:bg-white mx-auto relative overflow-hidden">
+            <div className="flex flex-col items-start text-left px-8 lg:px-12 max-w-4xl">
+              <h2 className="text-3xl lg:text-5xl font-bold text-slate-900 mb-6 lg:mb-10 tracking-tight reveal-item text-center lg:text-left w-full" style={{ fontFamily: 'CustomFont' }}>
+                Software that makes you feel great
+              </h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 text-slate-600 text-base md:text-lg leading-relaxed font-medium">
-              <div className="space-y-8 reveal-item">
-                <p>
-                  Traveling with points shouldn't be complicated or overwhelming. Flightpoints was built on a simple belief: everyone should be able to use their miles confidently without stress, confusion, or wasted time.
-                </p>
-                <p>
-                  Every year, millions of award seats go unused because travelers never know when they become available. Searching dozens of airline sites, comparing point values, and tracking routes manually is slow, unclear, and easy to miss.
-                </p>
-              </div>
-              <div className="space-y-8 reveal-item">
-                <p>
-                  <span className="text-slate-900 font-bold">Flightpoints exists to change that.</span><br />
-                  We continuously improve our platform with smarter alerts, deeper award data, and more airline integrations, so planning with miles becomes effortless.
-                </p>
-                <p>
-                  Our promise is simple: we'll keep building tools that help you travel better, save more points, and explore the world without barriers.
-                </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 text-slate-600 text-sm lg:text-lg leading-relaxed font-medium">
+                <div className="space-y-6 lg:space-y-8 reveal-item">
+                  <p>
+                    Traveling with points shouldn't be complicated or overwhelming. Flightpoints was built on a simple belief: everyone should be able to use their miles confidently without stress, confusion, or wasted time.
+                  </p>
+                  <p>
+                    Every year, millions of award seats go unused because travelers never know when they become available. Searching dozens of airline sites, comparing point values, and tracking routes manually is slow, unclear, and easy to miss.
+                  </p>
+                </div>
+                <div className="space-y-6 lg:space-y-8 reveal-item">
+                  <p>
+                    <span className="text-slate-900 font-bold">Flightpoints exists to change that.</span><br />
+                    We continuously improve our platform with smarter alerts, deeper award data, and more airline integrations, so planning with miles becomes effortless.
+                  </p>
+                  <p>
+                    Our promise is simple: we'll keep building tools that help you travel better, save more points, and explore the world without barriers.
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
           </div>
         </section>
 
         {/* Screen 3: Airline Partner Grid */}
-        <section className="about-panel w-screen h-full flex items-center justify-center bg-white p-4 md:p-[2.5vw]">
-          <div className="w-full h-full max-w-[1920px] flex flex-col items-center justify-center rounded-[3rem] border border-slate-200 bg-white mx-auto relative overflow-hidden">
-            <div className="flex flex-col items-start text-left px-12 max-w-4xl w-full">
-              <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6 tracking-tight reveal-item" style={{ fontFamily: 'CustomFont' }}>
+        <section className="about-panel w-full h-auto min-h-[50vh] lg:w-screen lg:h-full flex items-center justify-center bg-white p-4 lg:p-[2.5vw]">
+          <div className="w-full h-auto py-12 lg:py-0 lg:h-full max-w-[1920px] flex flex-col items-center justify-center lg:rounded-[3rem] lg:border lg:border-slate-200 lg:bg-white mx-auto relative overflow-hidden">
+            <div className="flex flex-col items-start text-left px-8 lg:px-12 max-w-4xl w-full">
+              <h2 className="text-3xl lg:text-5xl font-bold text-slate-900 mb-4 lg:mb-6 tracking-tight reveal-item text-center lg:text-left w-full" style={{ fontFamily: 'CustomFont' }}>
                 Find the best Award flights.
               </h2>
 
-              <p className="text-base text-slate-500 leading-relaxed max-w-2xl mb-10 reveal-item">
+              <p className="text-sm lg:text-base text-slate-500 leading-relaxed max-w-2xl mb-8 lg:mb-10 reveal-item">
                 Search <span className="font-bold text-slate-900">award flights across 25+ airlines and partner programs.</span> Compare
                 mileage costs, availability, and cabin options side-by-side.
               </p>
@@ -315,14 +317,14 @@ const About = () => {
         </section>
 
         {/* Screen 4: Transfer Partners */}
-        <section className="about-panel w-screen h-full flex items-center justify-center bg-white p-4 md:p-[2.5vw]">
-          <div className="w-full h-full max-w-[1920px] flex flex-col items-center justify-center rounded-[3rem] border border-slate-200 bg-white mx-auto relative overflow-hidden">
-            <div className="flex flex-col items-start text-left px-12 max-w-4xl w-full">
-              <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-10 tracking-tight reveal-item" style={{ fontFamily: 'CustomFont' }}>
+        <section className="about-panel w-full h-auto min-h-[50vh] lg:w-screen lg:h-full flex items-center justify-center bg-white p-4 lg:p-[2.5vw]">
+          <div className="w-full h-auto py-12 lg:py-0 lg:h-full max-w-[1920px] flex flex-col items-center justify-center lg:rounded-[3rem] lg:border lg:border-slate-200 lg:bg-white mx-auto relative overflow-hidden">
+            <div className="flex flex-col items-start text-left lg:items-center lg:text-center px-8 lg:px-12 max-w-4xl w-full">
+              <h2 className="text-3xl lg:text-5xl font-bold text-slate-900 mb-6 lg:mb-10 tracking-tight reveal-item text-center lg:text-left w-full" style={{ fontFamily: 'CustomFont' }}>
                 Discover Transfer Partners
               </h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-4xl">
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4 w-full lg:max-w-2xl mx-auto">
                 {[
                   { name: "Capital One", logo: "/images/capital-one.svg" },
                   { name: "American Express", logo: "/images/american-express.svg" },
@@ -331,8 +333,8 @@ const About = () => {
                   { name: "Bilt", logo: "/images/bilt.svg" },
                   { name: "Wells Fargo", logo: "/images/wellsfargo.svg" }
                 ].map((item, i) => (
-                  <div key={i} className="p-6 rounded-2xl border border-slate-100 bg-white flex items-center justify-center transition-all hover:border-slate-300 reveal-item">
-                    <img src={item.logo} alt={item.name} className="h-6 md:h-8 w-auto object-contain" />
+                  <div key={i} className="p-4 rounded-2xl border border-slate-100 bg-white flex items-center justify-center transition-all hover:border-slate-300 reveal-item">
+                    <img src={item.logo} alt={item.name} className="h-6 lg:h-8 w-auto object-contain" />
                   </div>
                 ))}
               </div>
@@ -341,10 +343,10 @@ const About = () => {
         </section>
 
         {/* Screen 5: FAQ Section */}
-        <section className="about-panel w-screen h-full flex items-center justify-center bg-white p-4 md:p-[2.5vw]">
-          <div className="w-full h-full max-w-[1920px] flex flex-col items-center justify-center rounded-[3rem] border border-slate-200 bg-white mx-auto relative overflow-hidden">
-            <div className="flex flex-col items-start text-left px-12 max-w-4xl w-full">
-              <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-12 tracking-tight reveal-item" style={{ fontFamily: 'CustomFont' }}>
+        <section className="about-panel w-full h-auto min-h-[50vh] lg:w-screen lg:h-full flex items-center justify-center bg-white p-4 lg:p-[2.5vw]">
+          <div className="w-full h-auto py-12 lg:py-0 lg:h-full max-w-[1920px] flex flex-col items-center justify-center lg:rounded-[3rem] lg:border lg:border-slate-200 lg:bg-white mx-auto relative overflow-hidden">
+            <div className="flex flex-col items-start text-left px-8 lg:px-12 max-w-4xl w-full">
+              <h2 className="text-3xl lg:text-5xl font-bold text-slate-900 mb-8 lg:mb-12 tracking-tight reveal-item text-center lg:text-left w-full" style={{ fontFamily: 'CustomFont' }}>
                 F.A.Q
               </h2>
 

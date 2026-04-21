@@ -169,40 +169,35 @@ const Search = ({ isSearchStarted }) => {
 
   useLayoutEffect(() => {
     if (isVisible) {
-      const mm = gsap.matchMedia();
+      let mm = gsap.matchMedia();
 
-      // Mobile Animation (Faster)
       mm.add("(max-width: 1024px)", () => {
         const tl = gsap.timeline();
         tl.fromTo(".search-container",
-          { y: 20, opacity: 0 },
+          { y: 50, opacity: 0 },
           { y: 0, opacity: 1, duration: 0.5, ease: "expo.out" }
         );
-
-        const revealItems = sectionRef.current.querySelectorAll(".search-reveal-item");
-        if (revealItems.length) {
-          tl.fromTo(revealItems,
-            { y: 20, opacity: 0 },
-            { y: 0, opacity: 1, duration: 0.4, stagger: 0.03, ease: "expo.out" },
-            "-=0.3"
-          );
-        }
+        tl.fromTo(".search-reveal-item",
+          { y: 30, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.5, stagger: 0.06, ease: "power2.out" },
+          "-=0.3"
+        );
       });
 
-      // Desktop Animation (Original)
       mm.add("(min-width: 1025px)", () => {
         const tl = gsap.timeline();
+
         tl.fromTo(".search-container",
           { x: 100, opacity: 0 },
-          { x: 0, opacity: 1, duration: 0.8, ease: "expo.out", force3D: true }
+          { x: 0, opacity: 1, duration: 0.6, ease: "expo.out", force3D: true }
         );
 
         const revealItems = sectionRef.current.querySelectorAll(".search-reveal-item");
         if (revealItems.length) {
           tl.fromTo(revealItems,
             { y: 40, opacity: 0, scale: 0.98 },
-            { y: 0, opacity: 1, scale: 1, duration: 0.7, stagger: 0.05, ease: "expo.out", force3D: true },
-            "-=0.5"
+            { y: 0, opacity: 1, scale: 1, duration: 0.5, stagger: 0.05, ease: "expo.out", force3D: true },
+            "-=0.4"
           );
         }
       });
@@ -215,14 +210,17 @@ const Search = ({ isSearchStarted }) => {
     <section
       id="search"
       ref={sectionRef}
-      className={`min-h-[calc(100vh-72px)] h-auto md:h-[calc(100vh-72px)] w-full transition-colors duration-300 bg-white relative p-4 md:p-[2.5vw] ${(showFromDropdown || showToDropdown || showDatePicker || showReturnDatePicker || showTravelerDropdown || showFareDropdown) ? 'z-[2001]' : 'z-50'}`}
+      className={`min-h-[calc(100vh-72px)] h-auto md:h-[calc(100vh-72px)] w-full transition-colors duration-300 bg-white relative py-4 px-0 md:p-[2.5vw] flex flex-col items-center ${(showFromDropdown || showToDropdown || showDatePicker || showReturnDatePicker || showTravelerDropdown || showFareDropdown) ? 'z-[2001]' : 'z-50'}`}
     >
-      {/* MOBILE VIEW - Purely Centered (Hidden on Desktop) */}
-      <div className="block md:hidden w-full px-5 py-10">
-        <div className="search-container flex flex-col items-center w-full max-w-[450px] mx-auto">
+      {/* MOBILE VIEW - Vertical Stacking (Hidden on Desktop) */}
+      <div className="block md:hidden w-full py-8">
+        <div className="search-container flex flex-col items-center justify-center w-[95%] max-w-[520px] mx-auto bg-[#13251a] rounded-[2.5rem] p-6 border border-[#1a2e21] shadow-2xl relative overflow-hidden min-h-[500px]">
+          {/* Mobile Background Glow */}
+          <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 blur-[60px] rounded-full" />
+
           {/* Mobile Flights Tag */}
-          <div className="search-reveal-item flex flex-col items-center mb-8 opacity-0">
-            <span className="text-[10px] font-bold bg-gradient-to-r from-emerald-600 to-teal-600 text-white px-3 py-1 rounded-full mb-2 shadow-lg uppercase tracking-tight">
+          <div className="search-reveal-item flex flex-col items-center mb-6 relative z-10">
+            <span className="text-[10px] font-bold bg-gradient-to-r from-emerald-600 to-teal-600 text-white px-3 py-1 rounded-full mb-1 shadow-lg uppercase tracking-tight">
               Upto 44% Off
             </span>
             <button className="flex items-center gap-2 px-8 py-3 rounded-full border border-slate-200/60 transition-all duration-300 font-black text-sm bg-white text-[#13251a]">
@@ -232,7 +230,7 @@ const Search = ({ isSearchStarted }) => {
           </div>
 
           {/* Mobile Search Card */}
-          <div className="search-reveal-item w-full bg-white rounded-[2rem] p-5 shadow-[0_8px_40px_rgba(0,0,0,0.08)] border border-slate-100 opacity-0">
+          <div className="search-reveal-item w-full bg-white rounded-[2rem] p-6 shadow-xl relative z-10 border border-slate-100">
             <div className="flex flex-wrap items-center justify-center gap-4 mb-8">
               {['One Way', 'Round Trip', 'Multi City'].map((type) => (
                 <label key={type} className="flex items-center gap-2 cursor-pointer">
@@ -245,38 +243,65 @@ const Search = ({ isSearchStarted }) => {
               ))}
             </div>
 
-            <div className="flex flex-col gap-3">
-              <div ref={fromRef} className="p-4 border rounded-2xl border-slate-100 bg-slate-50/30" onClick={() => setShowFromDropdown(true)}>
-                <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1">Departure From</p>
-                <p className="text-sm font-black text-[#13251a] truncate">{fromLocation.city || 'Select City'}</p>
-              </div>
-              <div ref={toRef} className="p-4 border rounded-2xl border-slate-100 bg-slate-50/30" onClick={() => setShowToDropdown(true)}>
-                <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1">Going To</p>
-                <p className="text-sm font-black text-[#13251a] truncate">{toLocation.city || 'Select City'}</p>
-              </div>
-              <div className="grid grid-cols-2 gap-3">
-                <div ref={datePickerRef} className="p-4 border rounded-2xl border-slate-100 bg-slate-50/30" onClick={() => setShowDatePicker(true)}>
-                  <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1">Departure</p>
-                  <p className="text-sm font-black text-[#13251a]">{format(departureDate, 'dd MMM\' yy')}</p>
+            <div className="flex flex-col gap-2">
+              {/* Departure From & Going To Row */}
+              <div className="grid grid-cols-2 relative border-b border-slate-100">
+                <div ref={fromRef} className="p-3 border-r border-slate-100 bg-white" onClick={() => setShowFromDropdown(true)}>
+                  <p className="text-[8px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">From</p>
+                  <h3 className="text-lg font-black text-slate-800 leading-tight truncate">{fromLocation.city}</h3>
+                  <p className="text-[8px] text-slate-500 truncate mt-0.5">{fromLocation.code}, {fromLocation.airport}</p>
                 </div>
-                <div ref={returnDatePickerRef} className="p-4 border rounded-2xl border-slate-100 bg-slate-50/30" onClick={() => setShowReturnDatePicker(true)}>
-                  <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1">Return</p>
-                  <p className={`text-sm font-black ${returnDate ? 'text-[#13251a]' : 'text-blue-500'}`}>{returnDate ? format(returnDate, 'dd MMM\' yy') : 'Book Round Trip'}</p>
+
+                {/* Mobile Swap Icon */}
+                <div
+                  onClick={(e) => { e.stopPropagation(); handleSwap(); }}
+                  className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-6 h-6 rounded-full border border-slate-200 bg-white flex items-center justify-center shadow-sm active:scale-90 transition-transform"
+                >
+                  <ArrowLeftRight size={10} className="text-[#13251a]" />
+                </div>
+
+                <div ref={toRef} className="p-3 bg-white" onClick={() => setShowToDropdown(true)}>
+                  <p className="text-[8px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">To</p>
+                  <h3 className="text-lg font-black text-slate-800 leading-tight truncate">{toLocation.city}</h3>
+                  <p className="text-[8px] text-slate-500 truncate mt-0.5">{toLocation.code}, {toLocation.airport}</p>
                 </div>
               </div>
-              <div className="grid grid-cols-2 gap-3">
-                <div ref={travelerRef} className="p-4 border rounded-2xl border-slate-100 bg-slate-50/30" onClick={() => setShowTravelerDropdown(true)}>
-                  <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1">Travellers</p>
-                  <p className="text-sm font-black text-[#13251a] truncate">{adults + children + infants} Total</p>
+
+              {/* Date Grid */}
+              <div className="grid grid-cols-2 gap-2">
+                <div ref={datePickerRef} className="p-3 border-r border-b border-slate-100 bg-white" onClick={() => setShowDatePicker(true)}>
+                  <p className="text-[8px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">Departure</p>
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-lg font-black text-slate-800">{format(departureDate, 'dd MMM\'')}</span>
+                    <span className="text-xs font-bold text-slate-800">yy</span>
+                  </div>
+                  <p className="text-[9px] text-slate-500 mt-0.5">{format(departureDate, 'EEEE')}</p>
                 </div>
-                <div ref={fareRef} className="p-4 border rounded-2xl border-slate-100 bg-slate-50/30" onClick={() => setShowFareDropdown(true)}>
-                  <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1">Fare Type</p>
-                  <p className="text-sm font-black text-[#13251a] truncate">{fareType}</p>
+                <div ref={returnDatePickerRef} className="p-3 border-b border-slate-100 bg-white" onClick={() => setShowReturnDatePicker(true)}>
+                  <p className="text-[8px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">Return</p>
+                  <p className={`font-black leading-tight ${returnDate ? 'text-lg text-slate-800' : 'text-[13px] text-blue-600 whitespace-nowrap'}`}>
+                    {returnDate ? format(returnDate, 'dd MMM\' yy') : 'Book Round Trip'}
+                  </p>
+                  <p className="text-[9px] text-slate-500 mt-0.5 leading-none">to save extra</p>
+                </div>
+              </div>
+
+              {/* Bottom Grid */}
+              <div className="grid grid-cols-2 gap-2">
+                <div ref={travelerRef} className="p-3 border-r border-slate-100 bg-white" onClick={() => setShowTravelerDropdown(true)}>
+                  <p className="text-[8px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">Travellers</p>
+                  <h3 className="text-base font-black text-slate-800 leading-tight">{adults + children + infants} Total</h3>
+                  <p className="text-[9px] text-slate-500 mt-0.5">Economy</p>
+                </div>
+                <div ref={fareRef} className="p-3 bg-white" onClick={() => setShowFareDropdown(true)}>
+                  <p className="text-[8px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">Fare Type</p>
+                  <h3 className="text-base font-black text-slate-800 leading-tight">{fareType}</h3>
+                  <p className="text-[9px] text-slate-500 mt-0.5">Regular</p>
                 </div>
               </div>
             </div>
 
-            <button className="w-full mt-6 py-4 bg-[#13251a] text-white rounded-2xl font-black text-sm active:scale-95 transition-transform">
+            <button className="w-[60%] mx-auto block mt-6 py-4 bg-[#13251a] text-white rounded-2xl font-black text-xs active:scale-95 transition-transform uppercase tracking-widest">
               Search Flights
             </button>
           </div>
@@ -287,7 +312,7 @@ const Search = ({ isSearchStarted }) => {
       <div className="hidden md:flex items-center justify-center w-full h-full">
         <div className="search-container w-full h-full max-w-[1920px] mx-auto relative p-6 md:pl-16 md:pr-12 md:py-16 rounded-[3rem] border bg-[#13251a] border-[#1a2e21] flex items-center justify-between gap-12">
           {/* Animated Left Panel */}
-          <div className="hidden md:flex relative z-10 flex-col gap-5 w-52 shrink-0">
+          <div className="flex relative z-10 flex-col gap-5 w-52 shrink-0">
             {/* Stat Card 1 */}
             <div className="search-reveal-item bg-white/15 backdrop-blur-sm rounded-2xl p-4 border border-white/20 shadow-lg opacity-0">
               <div className="flex items-center gap-3 mb-2">

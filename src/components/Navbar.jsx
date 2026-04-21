@@ -98,207 +98,284 @@ const Navbar = ({ isInsideHero }) => {
     });
   };
 
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
+
   return (
-    <nav
-      className={`w-full flex items-center justify-between z-[100] md:z-[3000] transition-all duration-300 animate-reveal-down ${isInsideHero
-        ? (isScrolled
-          ? "fixed top-0 left-0 w-full px-12 bg-white border-b border-slate-200 shadow-sm"
-          : "relative px-8 bg-white border-b border-slate-200/50")
-        : `sticky top-0 px-8 bg-white border-b border-slate-200`
-        }`}
-      style={{
-        height: (isInsideHero && !isScrolled) ? '80px' : '72px',
-        fontFamily: 'CustomFont',
-        animationDelay: '50ms'
-      }}
-    >
-      {/* Left: Logo */}
-      <div className="flex-1 flex justify-start items-center gap-3 md:gap-4">
-        <div
-          className="flex items-center gap-3 cursor-pointer"
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-        >
-          <img src="/images/LOGO.svg" alt="Logo Icon" className="h-5 w-auto invert" />
-          <img src="/images/logoletter.svg" alt="ai.work" className="h-7 w-auto invert" />
+    <>
+      <nav
+        className={`w-full flex items-center justify-between z-[2000] transition-all duration-300 animate-reveal-down ${isInsideHero
+          ? (isScrolled
+            ? "fixed top-0 left-0 w-full px-12 bg-white border-b border-slate-200 shadow-sm"
+            : "relative px-8 bg-white border-b border-slate-200/50")
+          : `sticky top-0 px-8 bg-white border-b border-slate-200`
+          }`}
+        style={{
+          height: (isInsideHero && !isScrolled) ? '80px' : '72px',
+          fontFamily: 'CustomFont',
+          animationDelay: '50ms'
+        }}
+      >
+        {/* Left: Logo */}
+        <div className="flex-1 flex justify-start items-center gap-3 md:gap-4">
+          <div
+            className="flex items-center gap-3 cursor-pointer"
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          >
+            <img src="/images/LOGO.svg" alt="Logo Icon" className="h-5 w-auto invert" />
+            <img src="/images/logoletter.svg" alt="ai.work" className="h-7 w-auto invert" />
+          </div>
         </div>
-      </div>
 
-      {/* Center: Navigation Links */}
-      <div className="flex-1 flex justify-center h-full relative" ref={navContainerRef} onMouseLeave={() => setActiveDropdown(null)}>
-        <div className="hidden lg:flex items-center gap-8 h-full">
-          {navLinks.map((link) => (
-            <div
-              key={link.name}
-              onMouseEnter={(e) => link.hasDropdown ? handleMouseEnter(link.name, e) : setActiveDropdown(null)}
-              onClick={() => setActiveDropdown(null)}
-              className="h-full flex items-center px-2 cursor-pointer"
-            >
-              <a
-                href={link.href}
-                onClick={(e) => scrollToSection(e, link.href)}
-                className="text-sm font-medium transition-colors flex items-center gap-1.5 group text-[#0F172A]/70 hover:text-[#0F172A]"
-                style={{ fontFamily: 'CustomFont' }}
+        {/* Center: Navigation Links */}
+        <div className="flex-1 flex justify-center h-full relative" ref={navContainerRef} onMouseLeave={() => setActiveDropdown(null)}>
+          <div className="hidden lg:flex items-center gap-8 h-full">
+            {navLinks.map((link) => (
+              <div
+                key={link.name}
+                onMouseEnter={(e) => link.hasDropdown ? handleMouseEnter(link.name, e) : setActiveDropdown(null)}
+                onClick={() => setActiveDropdown(null)}
+                className="h-full flex items-center px-2 cursor-pointer"
               >
-                {link.name}
-                {link.hasDropdown && (
-                  <ChevronDown
-                    size={14}
-                    className={`transition-transform duration-300 ${activeDropdown === link.name ? 'rotate-180' : ''} text-[#0F172A]/30 group-hover:text-[#0F172A]/80`}
-                  />
-                )}
-              </a>
-            </div>
-          ))}
-        </div>
+                <a
+                  href={link.href}
+                  onClick={(e) => scrollToSection(e, link.href)}
+                  className="text-sm font-medium transition-colors flex items-center gap-1.5 group text-[#0F172A]/70 hover:text-[#0F172A]"
+                  style={{ fontFamily: 'CustomFont' }}
+                >
+                  {link.name}
+                  {link.hasDropdown && (
+                    <ChevronDown
+                      size={14}
+                      className={`transition-transform duration-300 ${activeDropdown === link.name ? 'rotate-180' : ''} text-[#0F172A]/30 group-hover:text-[#0F172A]/80`}
+                    />
+                  )}
+                </a>
+              </div>
+            ))}
+          </div>
 
-        {/* Seamless Shared Dropdown Container */}
-        <div
-          className={`absolute top-full left-0 pointer-events-none ${activeDropdown
-            ? 'opacity-100 visible transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]'
-            : 'opacity-0 invisible'}`}
-          style={{
-            transform: `translateX(${dropdownPos.x}px) translateX(-50%)`,
-            zIndex: 100
-          }}
-        >
-          <div className="pt-3 pointer-events-auto">
-            {/* Decorative Arrow (Slides with Container) */}
-            <div className="absolute top-[4px] left-1/2 -translate-x-1/2 w-4 h-4 rotate-45 bg-white border-t-[0.5px] border-l-[0.5px] border-slate-200 z-20" />
+          {/* Seamless Shared Dropdown Container */}
+          <div
+            className={`absolute top-full left-0 pointer-events-none ${activeDropdown
+              ? 'opacity-100 visible transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]'
+              : 'opacity-0 invisible'}`}
+            style={{
+              transform: `translateX(${dropdownPos.x}px) translateX(-50%)`,
+              zIndex: 100
+            }}
+          >
+            <div className="pt-3 pointer-events-auto">
+              {/* Decorative Arrow (Slides with Container) */}
+              <div className="absolute top-[4px] left-1/2 -translate-x-1/2 w-4 h-4 rotate-45 bg-white border-t-[0.5px] border-l-[0.5px] border-slate-200 z-20" />
 
-            {/* Content Switcher */}
-            <div
-              className="rounded-xl border bg-white border-slate-200 shadow-sm relative z-10 transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] overflow-hidden"
-              style={{
-                width: activeDropdown === 'Search' ? '600px' : activeDropdown === 'Routes' ? '700px' : activeDropdown === 'Alert' ? '400px' : '400px',
-              }}
-            >
-              <div className="relative w-full h-full">
-                {/* Explore Content */}
-                <div className={`${activeDropdown === 'Search' ? 'block' : 'hidden'} w-[600px] p-6`}>
-                  <div className="grid grid-cols-5 gap-8">
-                    <div className="col-span-3">
-                      <p className="text-[9px] font-semibold uppercase tracking-[0.2em] mb-4 text-slate-400">Navigation</p>
-                      <div className="grid grid-cols-1 gap-0.5">
-                        {searchData.monitor.map((item, idx) => (
-                          <div 
-                            key={idx} 
-                            onClick={(e) => {
-                              setActiveDropdown(null);
-                              scrollToSection(e, '#search');
-                            }} 
-                            className="flex items-start gap-3 p-2 rounded-lg transition-all group cursor-pointer border-b border-slate-50 hover:bg-slate-50 last:border-b-0"
-                          >
-                            <div className="mt-0.5 transition-colors text-slate-400 group-hover:text-blue-600">
-                              <item.icon size={16} strokeWidth={1.5} />
+              {/* Content Switcher */}
+              <div
+                className="rounded-xl border bg-white border-slate-200 shadow-sm relative z-10 transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] overflow-hidden"
+                style={{
+                  width: activeDropdown === 'Search' ? '600px' : activeDropdown === 'Routes' ? '700px' : activeDropdown === 'Alert' ? '400px' : '400px',
+                }}
+              >
+                <div className="relative w-full h-full">
+                  {/* Explore Content */}
+                  <div className={`${activeDropdown === 'Search' ? 'block' : 'hidden'} w-[600px] p-6`}>
+                    <div className="grid grid-cols-5 gap-8">
+                      <div className="col-span-3">
+                        <p className="text-[9px] font-semibold uppercase tracking-[0.2em] mb-4 text-slate-400">Navigation</p>
+                        <div className="grid grid-cols-1 gap-0.5">
+                          {searchData.monitor.map((item, idx) => (
+                            <div 
+                              key={idx} 
+                              onClick={(e) => {
+                                setActiveDropdown(null);
+                                scrollToSection(e, '#search');
+                              }} 
+                              className="flex items-start gap-3 p-2 rounded-lg transition-all group cursor-pointer border-b border-slate-50 hover:bg-slate-50 last:border-b-0"
+                            >
+                              <div className="mt-0.5 transition-colors text-slate-400 group-hover:text-blue-600">
+                                <item.icon size={16} strokeWidth={1.5} />
+                              </div>
+                              <div>
+                                <p className="text-[12px] font-medium transition-colors text-slate-900">{item.title}</p>
+                                <p className="text-[10px] mt-0.5 text-slate-500">{item.desc}</p>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                      <div className="col-span-2">
+                        <p className="text-[9px] font-semibold uppercase tracking-[0.2em] mb-4 text-slate-400">Featured</p>
+                        <div 
+                          onClick={(e) => {
+                            setActiveDropdown(null);
+                            scrollToSection(e, '#search');
+                          }}
+                          className="rounded-lg overflow-hidden border border-slate-100 mb-4 group cursor-pointer aspect-[16/9]"
+                        >
+                          <img src="https://images.pexels.com/photos/2166553/pexels-photo-2166553.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Search" className="w-full h-full object-cover grayscale-[0.2] transition-all duration-700 group-hover:grayscale-0 group-hover:scale-105" />
+                        </div>
+                        <div 
+                          onClick={(e) => {
+                            setActiveDropdown(null);
+                            scrollToSection(e, '#search');
+                          }} 
+                          className="flex items-start gap-3 p-2 rounded-lg transition-all group cursor-pointer hover:bg-slate-50"
+                        >
+                          <div className="mt-0.5 transition-colors text-slate-400 group-hover:text-blue-600">
+                            <searchData.create.icon size={16} strokeWidth={1.5} />
+                          </div>
+                          <div>
+                            <p className="text-[12px] font-medium transition-colors text-slate-900">{searchData.create.title}</p>
+                            <p className="text-[10px] mt-0.5 text-slate-500">{searchData.create.desc}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Routes Content */}
+                  <div className={`${activeDropdown === 'Routes' ? 'block' : 'hidden'} w-[700px] p-6`}>
+                    <p className="text-[9px] font-semibold uppercase tracking-[0.2em] mb-5 text-slate-400">Regional Availability</p>
+                    <div className="grid grid-cols-2 gap-x-8 gap-y-2">
+                      {routesData.map((route, idx) => (
+                        <div key={idx} onClick={() => setActiveDropdown(null)} className="flex items-center justify-between p-2 rounded-lg transition-all group cursor-pointer border-b border-slate-50 hover:bg-slate-50 last:border-b-0">
+                          <div className="flex items-center gap-3">
+                            <div className="transition-colors text-slate-400 group-hover:text-blue-600">
+                              <route.icon size={16} strokeWidth={1.5} />
                             </div>
                             <div>
-                              <p className="text-[12px] font-medium transition-colors text-slate-900">{item.title}</p>
-                              <p className="text-[10px] mt-0.5 text-slate-500">{item.desc}</p>
+                              <p className="text-[12px] font-medium transition-colors text-slate-900">{route.title}</p>
+                              <p className="text-[10px] mt-0.5 text-slate-500">{route.desc}</p>
                             </div>
                           </div>
-                        ))}
-                      </div>
-                    </div>
-                    <div className="col-span-2">
-                      <p className="text-[9px] font-semibold uppercase tracking-[0.2em] mb-4 text-slate-400">Featured</p>
-                      <div 
-                        onClick={(e) => {
-                          setActiveDropdown(null);
-                          scrollToSection(e, '#search');
-                        }}
-                        className="rounded-lg overflow-hidden border border-slate-100 mb-4 group cursor-pointer aspect-[16/9]"
-                      >
-                        <img src="https://images.pexels.com/photos/2166553/pexels-photo-2166553.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Search" className="w-full h-full object-cover grayscale-[0.2] transition-all duration-700 group-hover:grayscale-0 group-hover:scale-105" />
-                      </div>
-                      <div 
-                        onClick={(e) => {
-                          setActiveDropdown(null);
-                          scrollToSection(e, '#search');
-                        }} 
-                        className="flex items-start gap-3 p-2 rounded-lg transition-all group cursor-pointer hover:bg-slate-50"
-                      >
-                        <div className="mt-0.5 transition-colors text-slate-400 group-hover:text-blue-600">
-                          <searchData.create.icon size={16} strokeWidth={1.5} />
+                          <span className="text-[9px] font-medium tracking-tight text-slate-300">
+                            {route.count}
+                          </span>
                         </div>
-                        <div>
-                          <p className="text-[12px] font-medium transition-colors text-slate-900">{searchData.create.title}</p>
-                          <p className="text-[10px] mt-0.5 text-slate-500">{searchData.create.desc}</p>
-                        </div>
-                      </div>
+                      ))}
                     </div>
                   </div>
-                </div>
 
-                {/* Routes Content */}
-                <div className={`${activeDropdown === 'Routes' ? 'block' : 'hidden'} w-[700px] p-6`}>
-                  <p className="text-[9px] font-semibold uppercase tracking-[0.2em] mb-5 text-slate-400">Regional Availability</p>
-                  <div className="grid grid-cols-2 gap-x-8 gap-y-2">
-                    {routesData.map((route, idx) => (
-                      <div key={idx} onClick={() => setActiveDropdown(null)} className="flex items-center justify-between p-2 rounded-lg transition-all group cursor-pointer border-b border-slate-50 hover:bg-slate-50 last:border-b-0">
-                        <div className="flex items-center gap-3">
-                          <div className="transition-colors text-slate-400 group-hover:text-blue-600">
-                            <route.icon size={16} strokeWidth={1.5} />
+                  {/* Alert Content */}
+                  <div className={`${activeDropdown === 'Alert' ? 'block' : 'hidden'} w-[400px] p-6`}>
+                    <p className="text-[9px] font-semibold uppercase tracking-[0.2em] mb-4 text-slate-400">Recent Notifications</p>
+                    <div className="grid grid-cols-1 gap-0.5">
+                      {alertsData.map((alert, idx) => (
+                        <div key={idx} onClick={() => setActiveDropdown(null)} className="flex items-start justify-between p-2 rounded-lg transition-all group cursor-pointer border-b border-slate-50 hover:bg-slate-50 last:border-b-0">
+                          <div className="flex items-start gap-3">
+                            <div className={`mt-1 transition-colors ${alert.color} opacity-70 group-hover:opacity-100`}>
+                              <alert.icon size={14} strokeWidth={1.5} />
+                            </div>
+                            <div>
+                              <p className="text-[12px] font-medium transition-colors text-slate-900">{alert.title}</p>
+                              <p className="text-[10px] mt-0.5 whitespace-nowrap text-slate-500">{alert.desc}</p>
+                            </div>
                           </div>
-                          <div>
-                            <p className="text-[12px] font-medium transition-colors text-slate-900">{route.title}</p>
-                            <p className="text-[10px] mt-0.5 text-slate-500">{route.desc}</p>
-                          </div>
+                          <span className="text-[9px] font-medium tracking-tight whitespace-nowrap ml-4 text-slate-300">
+                            {alert.time}
+                          </span>
                         </div>
-                        <span className="text-[9px] font-medium tracking-tight text-slate-300">
-                          {route.count}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Alert Content */}
-                <div className={`${activeDropdown === 'Alert' ? 'block' : 'hidden'} w-[400px] p-6`}>
-                  <p className="text-[9px] font-semibold uppercase tracking-[0.2em] mb-4 text-slate-400">Recent Notifications</p>
-                  <div className="grid grid-cols-1 gap-0.5">
-                    {alertsData.map((alert, idx) => (
-                      <div key={idx} onClick={() => setActiveDropdown(null)} className="flex items-start justify-between p-2 rounded-lg transition-all group cursor-pointer border-b border-slate-50 hover:bg-slate-50 last:border-b-0">
-                        <div className="flex items-start gap-3">
-                          <div className={`mt-1 transition-colors ${alert.color} opacity-70 group-hover:opacity-100`}>
-                            <alert.icon size={14} strokeWidth={1.5} />
-                          </div>
-                          <div>
-                            <p className="text-[12px] font-medium transition-colors text-slate-900">{alert.title}</p>
-                            <p className="text-[10px] mt-0.5 whitespace-nowrap text-slate-500">{alert.desc}</p>
-                          </div>
-                        </div>
-                        <span className="text-[9px] font-medium tracking-tight whitespace-nowrap ml-4 text-slate-300">
-                          {alert.time}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="mt-3 pt-3 border-t border-slate-50">
-                    <button className="w-full py-1.5 text-[10px] font-bold uppercase tracking-wider rounded-md transition-all bg-slate-50 text-slate-400 hover:bg-slate-100">
-                      View All Alerts
-                    </button>
+                      ))}
+                    </div>
+                    <div className="mt-3 pt-3 border-t border-slate-50">
+                      <button className="w-full py-1.5 text-[10px] font-bold uppercase tracking-wider rounded-md transition-all bg-slate-50 text-slate-400 hover:bg-slate-100">
+                        View All Alerts
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Right: CTA */}
-      <div className="flex-1 flex justify-end items-center gap-4">
-        {/* Mobile Hamburger */}
-        <button className="lg:hidden p-2 -mr-2 text-slate-900 outline-none">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-        </button>
-        <button
-          className="px-6 py-2 rounded-full text-sm font-bold transition-all cursor-pointer whitespace-nowrap bg-[#2563EB] text-white hover:bg-[#1D4ED8]"
-          style={{ fontFamily: 'CustomFont' }}
+        {/* Right: CTA */}
+        <div className="flex-1 flex justify-end items-center gap-4">
+          <button
+            onClick={toggleMobileMenu}
+            className="lg:hidden p-2 -mr-2 text-slate-900 outline-none z-[6000]"
+          >
+            {isMobileMenuOpen ? (
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            ) : (
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            )}
+          </button>
+          <button
+            className="hidden md:block px-6 py-2 rounded-full text-sm font-bold transition-all cursor-pointer whitespace-nowrap bg-[#2563EB] text-white hover:bg-[#1D4ED8]"
+            style={{ fontFamily: 'CustomFont' }}
+          >
+            Sign in
+          </button>
+        </div>
+
+        {/* Mobile Menu Overlay */}
+        <div
+          className={`absolute top-full left-0 w-full bg-white z-[1500] lg:hidden transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] overflow-hidden flex flex-col h-[calc(100vh-100%)]`}
+          style={{
+            clipPath: isMobileMenuOpen ? 'circle(150% at 100% 0%)' : 'circle(0% at 100% 0%)',
+            pointerEvents: isMobileMenuOpen ? 'auto' : 'none',
+            borderTop: '1px solid #f1f5f9'
+          }}
         >
-          Sign in
-        </button>
-      </div>
-    </nav>
+          {/* Mobile Links List */}
+          <div className="flex-1 overflow-y-auto py-2">
+            <div className="flex flex-col">
+              {navLinks.map((link) => (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setIsMobileMenuOpen(false);
+                    setTimeout(() => {
+                      scrollToSection(e, link.href);
+                    }, 750);
+                  }}
+                  className={`flex items-center justify-between px-6 py-4 text-base font-bold transition-all ${
+                    link.name === 'Home' 
+                      ? 'text-[#2563EB] bg-blue-50/50' 
+                      : 'text-slate-900 hover:bg-slate-50'
+                  }`}
+                  style={{ fontFamily: 'CustomFont' }}
+                >
+                  <span>{link.name}</span>
+                  {link.hasDropdown && (
+                    <ChevronDown size={18} className="text-slate-400" />
+                  )}
+                </a>
+              ))}
+              {/* Additional Mobile Links */}
+              <a 
+                href="#blogs" 
+                onClick={(e) => {
+                e.preventDefault();
+                setIsMobileMenuOpen(false);
+                setTimeout(() => {
+                  scrollToSection(e, '#blogs');
+                }, 750);
+              }}
+              className="px-6 py-4 text-base font-bold text-slate-900 hover:bg-slate-50 transition-all"
+                style={{ fontFamily: 'CustomFont' }}
+              >
+                Blogs
+              </a>
+            </div>
+          </div>
+
+          {/* Mobile Footer */}
+          <div className="p-6 border-t border-slate-100 bg-white">
+            <button
+              className="w-full py-4 rounded-xl text-base font-bold bg-[#2563EB] text-white active:scale-95 transition-transform"
+              style={{ fontFamily: 'CustomFont' }}
+            >
+              Login / Signup
+            </button>
+          </div>
+        </div>
+      </nav>
+    </>
   );
 };
 

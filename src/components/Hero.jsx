@@ -4,10 +4,20 @@ import { Search, Tag, Briefcase } from 'lucide-react';
 const Hero = ({ isSearchStarted, setIsSearchStarted }) => {
   const handleStartSearch = () => {
     setIsSearchStarted(true);
-    const searchSection = document.getElementById('search');
-    if (searchSection) {
-      searchSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+    // Small delay to allow the Search component to begin its reveal animation
+    setTimeout(() => {
+      const searchSection = document.getElementById('search');
+      if (searchSection) {
+        const offset = 80; // Height of the fixed navbar
+        const elementPosition = searchSection.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - offset;
+        
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
+    }, 100);
   };
 
   return (
